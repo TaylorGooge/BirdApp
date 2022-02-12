@@ -1,0 +1,29 @@
+{{#extend "scripts"}}
+    <script src = "showModal.js" > </script>
+    <script src = "reportbird.js" > </script>
+{{/extend}}
+
+{{#extend "stylesheets"}}
+
+{{/extend}}
+{{>modal}}
+<div id = 'reportbird'>
+    <h2>Report bird sighting </h2>
+    <form>
+        <div class = 'form-group'>
+             <label for="birdName"> Bird
+                <select class="form-control" type= 'select' id= "birdName" >
+                    <option value = '0'> Select</option>
+
+                </select>
+            </label>
+            {{!-- <label for= "birdLocation"> Location
+                <input type= 'text' id = "birdLocation"/>
+            </label> --}}
+            <button class="btn btn-primary" id = "submitBird">Submit</button>
+        </div>
+    </form>
+    <p>Is the bird you saw not listed? 
+        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reportBirdModal">Click here</button>
+    </p>
+</div>

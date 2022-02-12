@@ -1,0 +1,82 @@
+{{#extend "scripts"}}
+    <script src = "maps.js" > </script>
+{{/extend}}
+{{#extend "stylesheets"}}
+    <link rel="stylesheet" href="styles.css">
+{{/extend}}
+<div id="map" style="clear:both; height:500px ;">
+    <script>
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 41.850033, lng: -87.6500523 },
+                zoom: 5,
+            });
+            var jsonData =  {
+                "type": "MultiPoint",
+                "geometry": {
+                    "type": "",
+                    "coordinates": [125.6, 10.1]
+                },
+                "properties": {
+                    "name": "Dinagat Islands"
+                }
+            } 
+            var jsonData ={ 
+                "type": "FeatureCollection",
+                    "features": [
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [-87.632401, 41.883228]},
+                        "properties": {"Species": "Cormorant"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [-84.2844121, 30.451092]},
+                        "properties": {"Species": "Blue Jay"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [-123.277700, 44.571650]},
+                        "properties": {"Species": "Mockingbird"}
+                    }
+                ]
+                }
+            map.data.addGeoJson(jsonData);
+            map.data.setStyle({
+                strokeColor: "blue"
+            })
+            infoWindow = new google.maps.InfoWindow();
+
+            const locationButton = document.createElement("button");
+
+            locationButton.textContent = "Pan to Current Location";
+            locationButton.classList.add("custom-map-control-button");
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+            locationButton.addEventListener("click", () => { 
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                    };
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent("Location found.");
+                    infoWindow.open(map);
+                    map.setCenter(pos);
+                },
+                () => {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                }
+                );
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+            });
+        }
+
+
+    </script>
+   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9nbhtbGeolVY2g-PckOOSnfe3Fabea0w&callback=initMap&v=weekly&channel=2"></script>
+    
+</div>
