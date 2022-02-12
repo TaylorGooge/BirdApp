@@ -1,4 +1,5 @@
 {{#extend "scripts"}}
+    <link rel="stylesheet" href="profileStyles.css">
    
 {{/extend}}
 {{#extend "stylesheets"}}
@@ -7,16 +8,20 @@
 
 <div class="container mt-4 mb-4 p-3 d-flex justify-content-center" id= 'profile'>
     <div class="card p-4">
-        <div class=" image d-flex flex-column justify-content-center align-items-center"> <button class="btn btn-secondary"> <img src="{{data.user.profilePic}}" height="100" width="100" /></button> <span class="name mt-3">{{data.user.firstName}} {{data.user.lastName}}</span> <span class="idd">{{data.user.userName}}</span>
-            <div class="text mt-3"> <span>{{data.user.email}}<br></div>
+        <div class=" image d-flex flex-column justify-content-center align-items-center"> 
+            <img class ='profileDetails' src="{{data.user.profilePic}}" height="100" width="100" /> 
+            <span class="name mt-3 profileDetails"> <b>Name:</b>{{data.user.firstName}} {{data.user.lastName}}</span> 
+            <span class="idd profileDetails"> <b>Username:</b> {{data.user.userName}}</span>
+            <span class="profileDetails"> <b>Email:</b> {{data.user.email}}</span>
            
-            <div class=" px-2 rounded mt-4 date "> <span class="join">Recently Logged Birds </span> 
-            {{#each data.loggedBirds}}
-                <p>
-                    {{this.species}} {{this.date}} {{this.location}} <button>Update</button> <button>Button</button>
-                </p>
-                
-            {{/each}}
+            <div class=" px-2 rounded mt-4 date "> <span class="lead">Recently Logged Birds </span> 
+            
+                <div class = 'container'>
+                    {{#each data.loggedBirds}}
+                    <p id= "birdList"> {{this.species}} {{this.date}} {{this.location}} <button class = 'btn btn-light' >Update</button> <button class= 'btn btn-light' >Delete</button></p>
+                    {{/each}}
+                </div>
+                  
             
             
             </div>

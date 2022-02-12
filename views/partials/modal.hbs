@@ -8,15 +8,47 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Missing Bird</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+         <form>
+          <div class = 'form-group'>
+            <label for="newBirdName">Species
+              <input type="text" class="form-control" id="newBirdName" aria-describedby="newBirdNameExp" >
+            </label>
+            <small id="speciesSearchExp" class="form-text text-muted">Input English Name of Missing Bird</small>
+          </div>
+          <div class = 'form-group'>
+            <script>
+              $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+              })
+            </script>
+            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="">
+             What are these letter codes?
+            </button>
+          </div>
+          <div class = 'form-group'>
+            <label for="4LetterCode">4 Letter Code
+              <input type="text" class="form-control" id="4LetterCode" aria-describedby="codeExp" >
+            </label>
+              <label for="6LetterCode">6 Letter Code
+              <input type="text" class="form-control" id="6LetterCode" aria-describedby="codeExp" >
+            </label>
+            <small id="codeExp" class="form-text text-muted">Input 4 Letter Code <b>OR</b> 6 Letter Code</small>
+          </div>
+            <div class = 'form-group'>
+              <label for="scientificNamw">Scientific Name
+                <input type="text" class="form-control" id="scientificName" aria-describedby="scientificNameExp" >
+              </label>
+              <small id="codeExp" class="form-text text-muted">Scientific Name</small>
+            </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Submit Missing Bird</button>
       </div>
     </div>
   </div>
