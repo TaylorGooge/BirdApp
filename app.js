@@ -38,31 +38,33 @@ app.use(
 
 /////routes//////
 app.get("/", function (req, res, next){
+    user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
     let data = {
+        userNav: user,
         links: [
             {
-                title: 'home',
+                title: 'Home',
                 current: true,
                 link: "/"
             },
             {
-                title: 'about',
+                title: 'About',
                 current: false,
                 link: "/about"
             },
             {
-                title: "map",
+                title: "Map",
                 current: false,
                 link: "/map"
             },
             {
-                title: "account info",
+                title: "Profile",
                 current: false,
                 link: "/profile"
 
             },
             {
-                title: "logout",
+                title: "Logout",
                 current: false,
                 link: "/logout"
             }
@@ -108,31 +110,33 @@ app.get("/", function (req, res, next){
 })
 
 app.get("/map", requiresAuth(), function (req, res, next){
+    user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
     let data = {
+        userNav: user,
         links: [
             {
-                title: 'home',
+                title: 'Home',
                 current: false,
                 link: "/"
             },
             {
-                title: 'about',
+                title: 'About',
                 current: false,
                 link: "/about"
             },
             {
-                title: "map",
+                title: "Map",
                 current: true,
                 link: "/map"
             },
             {
-                title: "account info",
+                title: "Profile",
                 current: false,
                 link: "/profile"
 
             },
             {
-                title: "logout",
+                title: "Logout",
                 current: false,
                 link: "/logout"
             }
@@ -178,6 +182,7 @@ app.get("/map", requiresAuth(), function (req, res, next){
 }) 
 
 app.get("/profile", requiresAuth(), function (req, res, next){
+    userNav = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
     
     let userMap =  {
         email:   req.oidc.user.email,
@@ -210,32 +215,33 @@ app.get("/profile", requiresAuth(), function (req, res, next){
         },    
     ]
     let data = {
+        userNav: user,
         user: userMap,
         loggedBirds: loggedBirdsMap,
         links: [
             {
-                title: 'home',
+                title: 'Home',
                 current: false,
                 link: "/"
             },
             {
-                title: 'about',
+                title: 'About',
                 current: false,
                 link: "/about"
             },
             {
-                title: "map",
+                title: "Map",
                 current: false,
                 link: "/map"
             },
             {
-                title: "account info",
+                title: "Profile",
                 current: true,
                 link: "/profile"
 
             },
             {
-                title: "logout",
+                title: "Logout",
                 current: false,
                 link: "/logout"
             }
@@ -282,32 +288,34 @@ app.get("/profile", requiresAuth(), function (req, res, next){
 })
 
 app.get('/about', function(req, res, next) {
+    user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
 
     let data = {
+        userNav: user,
         links: [
             {
-                title: 'home',
+                title: 'Home',
                 current: false,
                 link: "/"
             },
             {
-                title: 'about',
+                title: 'About',
                 current: false,
                 link: "/about"
             },
             {
-                title: "map",
+                title: "Map",
                 current: false,
                 link: "/map"
             },
             {
-                title: "account info",
+                title: "Profile",
                 current: true,
                 link: "/profile"
 
             },
             {
-                title: "logout",
+                title: "Logout",
                 current: false,
                 link: "/logout"
             }
@@ -353,31 +361,33 @@ app.get('/about', function(req, res, next) {
 })
 
 app.get('/logout', requiresAuth(), function(req, res, next) {
+    user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
     let data = {
+        userNav: user,
         links: [
             {
-                title: 'home',
+                title: 'Home',
                 current: false,
                 link: "/"
             },
             {
-                title: 'about',
+                title: 'About',
                 current: false,
                 link: "/about"
             },
             {
-                title: "map",
+                title: "Map",
                 current: false,
                 link: "/map"
             },
             {
-                title: "account info",
+                title: "Account info",
                 current: true,
                 link: "/profile"
 
             },
             {
-                title: "logout",
+                title: "Logout",
                 current: false,
                 link: "/logout"
             }
@@ -419,11 +429,114 @@ app.get('/logout', requiresAuth(), function(req, res, next) {
             }
         ]
     };
-    axios.get('https://' + baseURL + '/v2/logout?' + 
+axios.get('https://' + baseURL + '/v2/logout?' + 
         'client_id=' + clientID + '&returnTo=' + baseUrl)
 
-    res.render('index', {data:data})
-})
+        res.render('index', {data:data})
+    })
+
+app.get('/help', function (req, res, next) {
+    user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
+    let data = {
+        userNav:user,
+        accordion: [
+            {
+                id: 'faq-1_id',
+                data_bs_target: 'faq-1_target',
+                heading: 'Question 1',
+                body: 'This is the answer to the question'
+            },
+            {
+                id: 'faq-2_id',
+                data_bs_target: 'faq-2_target',
+                heading: 'Question 2',
+                body: 'This is the answer to the question'
+            },
+            {
+                id: 'faq-3_id',
+                data_bs_target: 'faq-3_target',
+                heading: 'Question 3',
+                body: 'This is the answer to the question'
+            },
+            {
+                id: 'faq-4_id',
+                data_bs_target: 'faq-4_target',
+                heading: 'Question 4',
+                body: 'This is the answer to the question'
+            }
+        
+
+        ],
+
+        links: [
+            {
+                title: 'Home',
+                current: false,
+                link: "/"
+            },
+            {
+                title: 'About',
+                current: false,
+                link: "/about"
+            },
+            {
+                title: "Map",
+                current: false,
+                link: "/map"
+            },
+            {
+                title: "Profile",
+                current: true,
+                link: "/profile"
+
+            },
+            {
+                title: "Logout",
+                current: false,
+                link: "/logout"
+            }
+        ],
+        footerContact: [
+            {
+                fas: 'fas fa-home me-3',
+                value : "1234 Street City, State, Zip"
+            
+            },
+            {
+                fas : 'fas fa-envelope me-3',
+                value : "birdapp@email.com",
+            }
+        ],
+        footerUsefulLinks: [
+            {
+                title: 'eBird',
+                link : "https://ebird.org/home"
+            
+            },
+            {
+                title : 'Institute for Bird Populations',
+                link : "https://www.birdpop.org/"
+            },
+            {
+                title: 'National Audubon Society',
+                link: 'https://www.audubon.org/'
+            }
+        ],
+        footerHelpLinks: [
+            {
+                title: "About", 
+                link: "/about"
+            },
+            {
+                title: "Help",
+                link: "/help"
+            }
+        ]
+    };
+    
+    res.render('help', {data: data})
+}
+)
 /////api//////
 var db  = mysql.createPool({
     user: process.env.user,
