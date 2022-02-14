@@ -18,7 +18,7 @@
             
                 <div class = 'container'>
                     {{#each data.loggedBirds}}
-                    <p id= "birdList"> {{this.species}} {{this.date}} {{this.location}} <button class = 'btn btn-light' >Update</button> <button class= 'btn btn-light' >Delete</button></p>
+                    <p id= "birdList"> {{this.species}} {{this.date}} {{this.location}} <button class = 'btn btn-light' >Update</button> <button class= 'btn btn-light' data-bs-toggle="modal" data-bs-target="#deleteBirdModal">Delete</button></p>
                     {{/each}}
                 </div>
                   

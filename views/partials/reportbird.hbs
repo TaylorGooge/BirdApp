@@ -8,7 +8,7 @@
 {{/extend}}
 {{>modal}}
 <div id = 'reportbird' class= 'container'>
-    <h2>Report bird sighting </h2>
+    <h2>Report bird sighting <button class= 'btn btn-light' data-bs-toggle="modal" data-bs-target="#explainModal">?</button></h2> 
     <form>
         <div class = 'form-group'>
              <label for="birdName"> Bird
@@ -17,7 +17,7 @@
 
                 </select>
             </label>
-            <button class="btn btn-primary" id = "submitBird">Submit</button>
+            <button class="btn btn-light" id = "submitBird">Submit</button>
         </div>
     </form>
     <p>Is the bird you saw not listed? 
