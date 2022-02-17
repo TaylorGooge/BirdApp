@@ -1,7 +1,6 @@
 {
   "name": "birdapp",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,6 +17,17 @@
     "handlebars-extend-block": "^1.0.0",
     "mapbox-gl": "^2.6.1",
     "mysql": "^2.18.1",
-    "node": "^17.4.0"
-  }
+    "node": "^17.4.0",
+    "node-csv": "^0.1.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaylorGooge/BirdApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TaylorGooge/BirdApp/issues"
+  },
+  "homepage": "https://github.com/TaylorGooge/BirdApp#readme",
+  "description": ""
 }

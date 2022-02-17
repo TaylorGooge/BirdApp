@@ -300,7 +300,7 @@ app.get('/about', function(req, res, next) {
             },
             {
                 title: 'About',
-                current: false,
+                current: true,
                 link: "/about"
             },
             {
@@ -310,7 +310,7 @@ app.get('/about', function(req, res, next) {
             },
             {
                 title: "Profile",
-                current: true,
+                current: false,
                 link: "/profile"
 
             },

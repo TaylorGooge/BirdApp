@@ -11,31 +11,87 @@
                 center: { lat: 41.850033, lng: -87.6500523 },
                 zoom: 5,
             });
-            var jsonData =  {
-                "type": "MultiPoint",
-                "geometry": {
-                    "type": "",
-                    "coordinates": [125.6, 10.1]
-                },
-                "properties": {
-                    "name": "Dinagat Islands"
-                }
-            } 
             var jsonData ={ 
                 "type": "FeatureCollection",
                     "features": [
                     { "type": "Feature",
                         "geometry": {"type": "Point", "coordinates": [-87.632401, 41.883228]},
-                        "properties": {"Species": "Cormorant"}
+                        "properties": {"Species": "Black Swift"}
                     },
                     { "type": "Feature",
                         "geometry": {"type": "Point", "coordinates": [-84.2844121, 30.451092]},
-                        "properties": {"Species": "Blue Jay"}
+                        "properties": {"Species": "Cliff Swallow"}
                     },
                     { "type": "Feature",
                         "geometry": {"type": "Point", "coordinates": [-123.277700, 44.571650]},
-                        "properties": {"Species": "Mockingbird"}
-                    }
+                        "properties": {"Species": "Cocos Finch"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [-110.495266372175, 42.384358801476]},
+                        "properties": {"Species": "Alder Flycatcher"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [-92.665764795590, 41.384348705088]},
+                        "properties": {"Species": "Double-crested Cormorant"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -96.635965311601, 39.385328962366]},
+                        "properties": {"Species": "Gray Trembler"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -103.836471930713, 328.394358110718]},
+                        "properties": {"Species": "Hawaii Creeper"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -97.665069430882, 41.385318548734]},
+                        "properties": {"Species": "Keel-billed Motmot"}
+                    }, 
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -119.596370212284, 43.394348446565]},
+                        "properties": {"Species": "Long-billed Hermit"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -119.596370212284, 43.394348446565]},
+                        "properties": {"Species": "Lesser Golden-Plover"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -118.584565912668, 41.385338299819]},
+                        "properties": {"Species": "Oak Titmouse"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -85.696870280864, 49.395358761650]},
+                        "properties": {"Species": "Painted Parakeet"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -108.498365777650, 49.395318411943]},
+                        "properties": {"Species": "Reddish Egret"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -82.498262434405, 49.385318964527]},
+                        "properties": {"Species": "Scarlet Tanager"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [ -108.516070356913, 48.396338733819]},
+                        "properties": {"Species": "Spotted Barbtail"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [  -103.558974586671, 32.396308923286]},
+                        "properties": {"Species": "Transvolcanic Jay"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [  -86.605464398829, -86.605464398829]},
+                        "properties": {"Species": "White-cheeked Pintail"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [  -117.494766432798, 46.386308998442]},
+                        "properties": {"Species": "Yellow-bellied Seedeater"}
+                    },
+                    { "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [   -115.644459000738,  48.39431851270]},
+                        "properties": {"Species": "Zenaida Dove"}
+                    },
+
+
                 ]
                 }
             map.data.addGeoJson(jsonData);
