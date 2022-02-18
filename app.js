@@ -4,6 +4,7 @@ let mysql = require('mysql')
 let port = process.env.PORT || 3656
 let path = require('path')
 let bodyParser = require('body-parser')
+let moment = require('moment')
 /////handlebars setup//////
 var handlebars = require('handlebars');
 const { engine } = require('express-handlebars');
@@ -23,6 +24,9 @@ app.set('port', port)
 
 /////auth0 setup//////
 const { auth, requiresAuth } = require('express-openid-connect')
+const { errorMonitor } = require('stream')
+const { Z_FIXED } = require('zlib')
+const { fdatasync } = require('fs')
 app.use(
     auth({
         authRequired: false,
@@ -111,8 +115,10 @@ app.get("/", function (req, res, next){
 
 app.get("/map", requiresAuth(), function (req, res, next){
     user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
+    email = req.oidc.isAuthenticated() ? req.oidc.user.email : false
     let data = {
         userNav: user,
+        userEmail: email,
         links: [
             {
                 title: 'Home',
@@ -215,7 +221,7 @@ app.get("/profile", requiresAuth(), function (req, res, next){
         },    
     ]
     let data = {
-        userNav: user,
+        userNav: userNav,
         user: userMap,
         loggedBirds: loggedBirdsMap,
         links: [
@@ -556,6 +562,58 @@ app.get('/getbirds', function(req, res, next) {
         }
     });
 });
+
+app.post('/getUserID', function (req, res, next) {
+    db.query('SELECT * FROM birdUsers WHERE email= ?', [req.body.email], function (error, results){
+        if (results.length === 0 ){
+            db.query('INSERT INTO birdUsers (email) VALUES (?)', [req.body.email], function( err, results2){
+                if (err){
+                    throw(err)
+                }
+            })
+        }
+        res.send(JSON.stringify(results))
+    })
+})
+
+app.post('/postBird', function(req, res, next) {
+    let date = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    db.query('SELECT id FROM birdUsers WHERE email= ?', [req.body.email], function (error, results){
+        if (error){
+            throw(error)
+        }  else {
+        let id =results[0].id
+        db.query('INSERT INTO birdSighting (userID, birdID, coordA, coordB, date) VALUES (?, ?, ?, ?, ?)', [id, req.body.bird,
+            req.body.coordA, req.body.coordB, date], function(error, results){
+                if (error){
+                    throw(error)
+                }
+                res.send(JSON.stringify(results))
+            })
+
+        }
+    })
+})
+
+app.post('/getlogged', function(req, res, next) {
+
+    db.query('SELECT id FROM birdUsers WHERE email= ?',[req.body.email],  function (error, results){
+        if (error){
+            throw(error)
+        }  else {
+            let id =results[0].id
+            db.query( 'SELECT * FROM birdSighting WHERE userID= ? LIMIT 5', [id], function (error, results) {
+                if (error){
+                    throw(error)
+                }
+                res.send(JSON.stringify(results))
+
+            })
+        }
+
+    })
+})
+
 
 app.listen(app.get('port'), function () {
     console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');

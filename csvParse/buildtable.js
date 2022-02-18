@@ -38,5 +38,6 @@ function insert(records){
 fs.createReadStream(__dirname+'/data.csv')
     .pipe(csv.parse({headers: true}))
     .on('error', error => console.error(error))
+    //.on('data', data => console.log(data))
     .on('data', row => insert(row))
     .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));

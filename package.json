@@ -16,6 +16,7 @@
     "express-openid-connect": "^2.6.0",
     "handlebars-extend-block": "^1.0.0",
     "mapbox-gl": "^2.6.1",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "node": "^17.4.0",
     "node-csv": "^0.1.2"

@@ -20,6 +20,14 @@
   {{#if data.userNav}}
     <div>
       <p>Logged in as {{data.userNav}}</p>
+      <script>
+        {{#if data.userEmail}}
+          let email = "{{data.userEmail}}"
+          {{else}}
+          let email = "{{data.user.email}}"
+        {{/if}}
+      </script>
+  
     </div>
   {{/if}}
   <div>

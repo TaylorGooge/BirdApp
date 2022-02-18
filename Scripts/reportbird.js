@@ -38,7 +38,7 @@ function buildBirdDropDown(data){
 }
 
 function recordBird(){
-    alert('called')
+
     ////get location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -47,16 +47,35 @@ function recordBird(){
               lat: position.coords.latitude,
               lng: position.coords.longitude,
             };
-            console.log(position)
+            fetch('/postBird', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                email : email,
+                coordA: position.coords.longitude,
+                coordB: position.coords.latitude,
+                bird: document.getElementById('birdName').value
+              } ) 
+              })
+              .then(response => {
+                if(!response.ok){
+                  throw new Error(`Request failed with status ${reponse.status}`)
+                }
+                console.log(response)
+              })
           },
           () => {
             handleLocationError(true, infoWindow, map.getCenter());
           }
         );
+       
       } else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
       }
+      
    
 }
 
