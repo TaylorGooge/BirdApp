@@ -16,14 +16,31 @@
            
             <div class=" px-2 rounded mt-4 date "> <span class="lead">Recently Logged Birds </span> 
             
-                <div class = 'container'>
-                    {{#each data.loggedBirds}}
-                    <p id= "birdList"> {{this.species}} {{this.date}} {{this.location}} <button class = 'btn btn-light' >Update</button> <button class= 'btn btn-light' data-bs-toggle="modal" data-bs-target="#deleteBirdModal">Delete</button></p>
-                    {{/each}}
+                <div class = 'container' id= 'profileContainer'>
+                    <table >
+                        <thead>
+                            <tr >
+                                <th>
+                                    Bird
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Update
+                                </th>
+                                <th>
+                                    Delete
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody id = "birdList">
+
+                        </tbody>
+           
+                    </table>
                 </div>
-                  
-            
-            
             </div>
         </div>
     </div>

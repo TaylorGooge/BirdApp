@@ -24,9 +24,6 @@ app.set('port', port)
 
 /////auth0 setup//////
 const { auth, requiresAuth } = require('express-openid-connect')
-const { errorMonitor } = require('stream')
-const { Z_FIXED } = require('zlib')
-const { fdatasync } = require('fs')
 app.use(
     auth({
         authRequired: false,
@@ -602,7 +599,13 @@ app.post('/getlogged', function(req, res, next) {
             throw(error)
         }  else {
             let id =results[0].id
-            db.query( 'SELECT * FROM birdSighting WHERE userID= ? LIMIT 5', [id], function (error, results) {
+            db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+            'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
+            'INNER JOIN birdSighting on ' +
+            'birdcodes.birdID = birdSighting.birdId ' +
+            'WHERE birdSighting.userID = ? ' +
+            'ORDER BY  birdSighting.date desc '+
+            'LIMIT 5', [id], function (error, results) {
                 if (error){
                     throw(error)
                 }

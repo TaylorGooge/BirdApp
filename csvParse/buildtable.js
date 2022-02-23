@@ -35,9 +35,9 @@ function insert(records){
 }
 
 
-fs.createReadStream(__dirname+'/data.csv')
+fs.createReadStream(__dirname+'/data2.csv')
     .pipe(csv.parse({headers: true}))
     .on('error', error => console.error(error))
     //.on('data', data => console.log(data))
     .on('data', row => insert(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));1
