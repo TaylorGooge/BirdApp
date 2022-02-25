@@ -7,6 +7,18 @@
     <title>Document</title>
 </head>
 <body>
+
+            
+    {{/extend}}
+    {{#extend "stylesheets"}}
+
+    {{/extend}}
+
+</head>
+<body>
+
+
+</body>
     <script>
 
         let data = {
@@ -62,4 +74,62 @@
     </script>
     
 </body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+   {{#extend "scripts"}}
+   <script>
+       let data = {
+            "Hummingbird": {
+                "artist": "Wilco",
+                "album": "A Ghost Is Born",
+                "length": "191.64",
+                "filepath": "A Ghost Is Born\\05 Hummingbird.flac"
+            },
+            "Doomin\\' Sun": {
+                "artist": "Bachelor",
+                "album": "Doomin' Sun",
+                "length": "186.86178125",
+                "filepath": "Bachelor\\Doomin' Sun\\Bachelor - Doomin' Sun - 10 Doomin' Sun.flac"
+            },
+            "Mustang": {
+                "artist": "Bartees Strange",
+                "album": "Live Forever",
+                "length": "233.69533333333334",
+                "filepath": "Bartees Strange\\Live Forever\\Bartees Strange - Live Forever - 02 Mustang.flac"
+            },
+            "Moths": {
+                "artist": "Long Beard",
+                "album": "Sleepwalker",
+                "length": "179.8015873015873",
+                "filepath": "Long Beard\\Sleepwalker\\Long Beard - Sleepwalker - 11 Moths.flac"
+            },
+            "Liffey": {
+                "artist": "Pillow Queens",
+                "album": "In Waiting",
+                "length": "304.8343125",
+                "filepath": "Pillow Queens\\In Waiting\\Pillow Queens - In Waiting - 05 Liffey.flac"
+            }
+        }
+
+        fetch('https://cs361-microservice-2022.herokuapp.com/', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                data: data} 
+                ) 
+            })
+            .then(response => {
+            if(!response.ok){
+                throw new Error(`Request failed with status ${response.status}`)
+            }
+            let data = response.json()
+            console.log(data)
+            })
+   </script>
 </html>

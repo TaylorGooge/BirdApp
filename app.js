@@ -289,8 +289,11 @@ app.get("/profile", requiresAuth(), function (req, res, next){
     
     res.render('profile', {data: data})
 })
+    app.get('/test'), function(req, res, next){
+        res.render('test')
 
-app.get('/about', function(req, res, next) {
+    }
+    app.get('/about', function(req, res, next) {
     user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
 
     let data = {

@@ -96,7 +96,17 @@
             map.data.setStyle({
                 strokeColor: "blue"
             })
-            infoWindow = new google.maps.InfoWindow();
+            var infowindow = new google.maps.InfoWindow();
+            
+
+            map.data.addListener('click', function(event) {
+            var feat = event.feature;
+            var html = "<b>" + feat.getProperty('Species')+ "</b>"
+            infowindow.setContent(html);
+            infowindow.setPosition(event.latLng);
+            infowindow.setOptions({pixelOffset: new google.maps.Size(0,-34)});
+            infowindow.open(map);
+        });
 
             const locationButton = document.createElement("button");
 
