@@ -1,34 +1,3 @@
-/* .bgimage {
-    width:100%;
-    height:1200px;
-    background: url('heroImage.jpeg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size:cover;
-    background-attachment: fixed;
-  }
-  .bgimage h5 {
-    color:white;
-    text-shadow:2px 2px #333;
-    font-size: 60px;
-  }
-
-  .heroText p {
-    color:white;
-    text-shadow:2px 2px #333;
-    font-size: 20px;
-  }
-  
-.heroText{
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-
-} */
-
 .jumbotron {
   color: white;
   background: url('heroImage.jpeg');

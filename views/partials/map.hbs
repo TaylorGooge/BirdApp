@@ -6,12 +6,28 @@
 {{/extend}}
 <div id="map" style="clear:both; height:500px ;" class= 'container'>
     <script>
+        let geoData 
+         fetch('https://cs361-microservice-geojson.herokuapp.com/', {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+            'Content-Type': 'application/json'
+            }
+            })
+            .then(response => {
+           
+            let data = response.json()
+            geoData = data
+            console.log(geoData)
+            })
+    </script>
+    <script>
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
                 center: { lat: 41.850033, lng: -87.6500523 },
                 zoom: 5,
             });
-            var jsonData ={ 
+            var jsonData = { 
                 "type": "FeatureCollection",
                     "features": [
                     { "type": "Feature",

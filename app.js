@@ -12,6 +12,7 @@ app.engine('.hbs', engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', './views');
 var extend = require('handlebars-extend-block');
+
 handlebars = extend(handlebars);
 ///////////
 require('dotenv').config()
@@ -24,6 +25,18 @@ app.set('port', port)
 
 /////auth0 setup//////
 const { auth, requiresAuth } = require('express-openid-connect')
+
+/////cors//////
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions)) 
+
+///////////
 app.use(
     auth({
         authRequired: false,
@@ -113,6 +126,7 @@ app.get("/", function (req, res, next){
 app.get("/map", requiresAuth(), function (req, res, next){
     user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
     email = req.oidc.isAuthenticated() ? req.oidc.user.email : false
+
     let data = {
         userNav: user,
         userEmail: email,
