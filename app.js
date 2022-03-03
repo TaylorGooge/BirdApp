@@ -46,11 +46,7 @@ app.use(
         baseURL: process.env. baseURL,
         clientID: process.env.clientID,
         issuerBaseURL: process.env.issuerBaseURL,
-        session: {
-            cookie: {
-                domain: '.herokuapp.com'
-            }
-        }
+        appSession: false,
     })
 );
 
