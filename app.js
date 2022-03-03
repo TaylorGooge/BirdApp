@@ -48,8 +48,6 @@ app.use(
     })
 );
 
-
-
 /////routes//////
 app.get("/", function (req, res, next){
     user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
