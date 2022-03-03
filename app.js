@@ -27,15 +27,7 @@ app.set('port', port)
 const { auth, requiresAuth } = require('express-openid-connect')
 app.set('trust proxy', true)
 
-/////cors//////
-const cors=require("cors");
-const corsOptions ={
-   origin:'*', 
-   credentials:true,            //access-control-allow-credentials:true
-   optionSuccessStatus:200,
-}
 
-app.use(cors(corsOptions)) 
 
 ///////////
 app.use(
