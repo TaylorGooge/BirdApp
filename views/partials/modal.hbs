@@ -12,43 +12,41 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-         <form>
+        <h3>Think we're missing something?</h3>
+        <p> If you think we should add a bird to our database provide the bird's information below. </p>
+         <form  action="https://formspree.io/f/mleazwnd" method="POST">
           <div class = 'form-group'>
             <label for="newBirdName">Species
-              <input type="text" class="form-control" id="newBirdName" aria-describedby="newBirdNameExp" >
+              <input type="text" class="form-control" id="newBirdName" aria-describedby="newBirdNameExp" placeholder="English Name">
             </label>
-            <small id="speciesSearchExp" class="form-text text-muted">Input English Name of Missing Bird</small>
           </div>
           <div class = 'form-group'>
-            <script>
-              $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
-              })
-            </script>
-            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="">
-             What are these letter codes?
-            </button>
+            <a href="/help" class="link-secondary" target="_blank">What are these letter codes?</a>
+             
+         
           </div>
           <div class = 'form-group'>
             <label for="4LetterCode">4 Letter Code
-              <input type="text" class="form-control" id="4LetterCode" aria-describedby="codeExp" >
+              <input type="text" class="form-control" id="4LetterCode" aria-describedby="codeExp" placeholder="4 Letter Code OR 6 Letter Code">
             </label>
               <label for="6LetterCode">6 Letter Code
-              <input type="text" class="form-control" id="6LetterCode" aria-describedby="codeExp" >
+              <input type="text" class="form-control" id="6LetterCode" aria-describedby="codeExp" placeholder="4 Letter Code OR 6 Letter Code">
             </label>
-            <small id="codeExp" class="form-text text-muted">Input 4 Letter Code <b>OR</b> 6 Letter Code</small>
           </div>
             <div class = 'form-group'>
-              <label for="scientificNamw">Scientific Name
-                <input type="text" class="form-control" id="scientificName" aria-describedby="scientificNameExp" >
+              <label for="scientificName">Scientific Name
+                <input type="text" class="form-control" id="scientificName" aria-describedby="scientificNameExp" placeholder="Scientific Name">
               </label>
-              <small id="codeExp" class="form-text text-muted">Scientific Name</small>
             </div>
+            <div class = 'form-group'>
+                 <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+             
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Submit Missing Bird</button>
+       
       </div>
     </div>
   </div>
