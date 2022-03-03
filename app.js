@@ -46,7 +46,6 @@ app.use(
         baseURL: process.env. baseURL,
         clientID: process.env.clientID,
         issuerBaseURL: process.env.issuerBaseURL,
-        appSession: false,
     })
 );
 
