@@ -16,8 +16,8 @@ window.addEventListener('load', () => {
               let table = document.getElementById('birdList')
               let range = 4
               for( const property in data) {
-                let delButton = "<button>Delete</button>"
-                let updateButton = "<button>Update</button>"
+                let delButton = "<button class='btn btn-light'>Delete</button>"
+                let updateButton = "<button class= 'btn btn-light'>Update</button>"
                 let attributeVal = [`${data[property].englishName}`, convertDate(data[property].date), updateButton, delButton]
                 let row = document.createElement('tr')
                 row.setAttribute('id', `${data[property].id} ${data[property].userID} ${data[property].birdId}`)

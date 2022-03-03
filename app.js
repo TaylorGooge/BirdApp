@@ -44,7 +44,12 @@ app.use(
         secret: process.env.secret,
         baseURL: process.env. baseURL,
         clientID: process.env.clientID,
-        issuerBaseURL: process.env.issuerBaseURL
+        issuerBaseURL: process.env.issuerBaseURL,
+        session: {
+            cookie: {
+                domain: '.herokuapp.com'
+            }
+        }
     })
 );
 
@@ -461,27 +466,32 @@ app.get('/help', function (req, res, next) {
             {
                 id: 'faq-1_id',
                 data_bs_target: 'faq-1_target',
-                heading: 'Question 1',
-                body: 'This is the answer to the question'
+                heading: 'What are these codes?',
+                body: '<p>Bird codes, also known as banding codes or alpha codes,'+' are abbreviations for bird names used ' + 
+                'by bird banders, ornithologists, and birdwatchers in North and Central America.'+
+                ' The codes are written in capital letters, and look like, e.g., MODO for mourning dove.</p>' +
+                '<p>The first set contains four-letter codes based on English names while the second set ' + 
+                'contains six-letter codes based on the scientific names.</p>' + 
+                '<p>Source: <a href= "https://www.birdpop.org/pages/birdSpeciesCodes.php"> Institute for Bird Populations</p>'
             },
-            {
-                id: 'faq-2_id',
-                data_bs_target: 'faq-2_target',
-                heading: 'Question 2',
-                body: 'This is the answer to the question'
-            },
-            {
-                id: 'faq-3_id',
-                data_bs_target: 'faq-3_target',
-                heading: 'Question 3',
-                body: 'This is the answer to the question'
-            },
-            {
-                id: 'faq-4_id',
-                data_bs_target: 'faq-4_target',
-                heading: 'Question 4',
-                body: 'This is the answer to the question'
-            }
+            // {
+            //     id: 'faq-2_id',
+            //     data_bs_target: 'faq-2_target',
+            //     heading: 'Question 2',
+            //     body: 'This is the answer to the question'
+            // },
+            // {
+            //     id: 'faq-3_id',
+            //     data_bs_target: 'faq-3_target',
+            //     heading: 'Question 3',
+            //     body: 'This is the answer to the question'
+            // },
+            // {
+            //     id: 'faq-4_id',
+            //     data_bs_target: 'faq-4_target',
+            //     heading: 'Question 4',
+            //     body: 'This is the answer to the question'
+            // }
         
 
         ],
