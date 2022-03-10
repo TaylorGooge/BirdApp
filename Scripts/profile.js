@@ -36,6 +36,8 @@ function deleteThis(object){
   })
 }
 
+
+
 function getLogged() {
   fetch('/getlogged', {
     method: 'POST',
@@ -54,11 +56,10 @@ function getLogged() {
 
           let table = document.getElementById('birdList')
           table.innerHTML = ""
-          let range = 4
+          let range = 3
           for( const property in data) {
             let delButton = "<button class='btn btn-light' onclick= 'deleteThis(this.parentNode.parentNode)'>Delete</button>"
-            let updateButton = "<button class= 'btn btn-light' onclick= 'updateThis(this.parentNode.parentNode)'>Update</button>"
-            let attributeVal = [`${data[property].englishName}`, convertDate(data[property].date), updateButton, delButton]
+            let attributeVal = [`${data[property].englishName}`, convertDate(data[property].date),  delButton]
             let row = document.createElement('tr')
             row.setAttribute('id', `${data[property].id} ${data[property].userID} ${data[property].birdId}`)
             for (let i=0; i< range; i ++){
