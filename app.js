@@ -5,6 +5,7 @@ let port = process.env.PORT || 3656
 let path = require('path')
 let bodyParser = require('body-parser')
 let moment = require('moment')
+const axios = require('axios')
 /////handlebars setup//////
 var handlebars = require('handlebars');
 const { engine } = require('express-handlebars');
@@ -12,7 +13,6 @@ app.engine('.hbs', engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', './views');
 var extend = require('handlebars-extend-block');
-
 handlebars = extend(handlebars);
 ///////////
 require('dotenv').config()
@@ -41,6 +41,14 @@ app.use(
     })
 );
 
+
+/////microservice//////
+app.get("/microservice", function(req, res, next ){
+    axios.get('https://cs361-microservice-geojson.herokuapp.com/')
+    .then(function (response) {
+        res.send(response.data)
+    })
+})
 /////routes//////
 app.get("/", function (req, res, next){
     user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false
