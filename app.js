@@ -613,6 +613,15 @@ app.post('/postBird', function(req, res, next) {
     })
 })
 
+app.post("/deleteEntry", function(req, res, next){
+    db.query('DELETE FROM birdSighting WHERE id=?',[req.body.id], function(error, results){
+        if (error){
+            throw(error)
+        }
+        res.sendStatus(200)
+    })
+})
+
 app.post('/getlogged', function(req, res, next) {
 
     db.query('SELECT id FROM birdUsers WHERE email= ?',[req.body.email],  function (error, results){
