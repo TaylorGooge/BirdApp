@@ -1,7 +1,7 @@
-var myModal = document.getElementById('reportBirdModal')
-var myInput = document.getElementById('birdModalTrigger')
+const myModal = document.getElementById('reportBirdModal');
+const myInput = document.getElementById('birdModalTrigger');
 
 
-$('myModal').on('shown.bs.modal', function () {
-  $('myInput').trigger('focus')
-})
+$('myModal').on('shown.bs.modal', function() {
+  $('myInput').trigger('focus');
+});

@@ -37,19 +37,19 @@
                 map.data.addGeoJson(response);
                 map.data.setStyle({
                     strokeColor: "blue"})
-                var infowindow = new google.maps.InfoWindow();
+                let infoWindow = new google.maps.InfoWindow();
                 const locationButton = document.createElement("button");
                 locationButton.textContent = "Pan to Current Location";
                 locationButton.classList.add("custom-map-control-button");
                 map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
 
                 map.data.addListener('click', function(event) {
-                    var feat = event.feature;
-                    var html = "<b>" + feat.getProperty('Species')+ "</b>"
-                    infowindow.setContent(html);
-                    infowindow.setPosition(event.latLng);
-                    infowindow.setOptions({pixelOffset: new google.maps.Size(0,-34)});
-                    infowindow.open(map);
+                    let feat = event.feature;
+                    let html = "<b>" + feat.getProperty('Species')+ "</b>"
+                    infoWindow.setContent(html);
+                    infoWindow.setPosition(event.latLng);
+                    infoWindow.setOptions({pixelOffset: new google.maps.Size(0,-34)});
+                    infoWindow.open(map);
                 });
                 locationButton.addEventListener("click", () => { 
                     // Try HTML5 geolocation.
@@ -60,7 +60,6 @@
                             lat: position.coords.latitude,
                             lng: position.coords.longitude,
                             };
-
                             infoWindow.setPosition(pos);
                             infoWindow.setContent("Location found.");
                             infoWindow.open(map);
@@ -78,9 +77,6 @@
             })
           
         }
-
-
-
     </script>
    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9nbhtbGeolVY2g-PckOOSnfe3Fabea0w&callback=initMap&v=weekly&channel=2"></script>
     
