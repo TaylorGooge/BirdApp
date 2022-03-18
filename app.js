@@ -630,7 +630,6 @@ app.post('/getlogged', function(req, res, next) {
         if (error) {
           throw (error);
         }
-        console.log(JSON.stringify(results))
         res.send(JSON.stringify(results));
       });
     }

@@ -15,6 +15,25 @@ function convertDate(date) {
   const sDay = sqlDateArr2[0];
   return new Date(sYear, sMonth, sDay);
 }
+function deleteThis(object) {
+  let id = object.id;
+  id = id.split(' ');
+  id = id[0];
+  fetch('/deleteEntry', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id,
+    }),
+  })
+  .then((response) => {
+    if (response.status == 200) {
+      getLogged();
+    }
+  });
+}
 
 function getLogged() {
   fetch('/getlogged', {
