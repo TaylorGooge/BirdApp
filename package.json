@@ -17,6 +17,7 @@
     "express": "^4.17.2",
     "express-handlebars": "^6.0.2",
     "express-openid-connect": "^2.6.0",
+    "font-awesome": "^4.7.0",
     "handlebars-extend-block": "^1.0.0",
     "mapbox-gl": "^2.6.1",
     "moment": "^2.29.1",

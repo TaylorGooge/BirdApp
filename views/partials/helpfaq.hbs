@@ -1,15 +1,24 @@
+{{#extend "scripts"}}
+{{/extend}}
+{{#extend "stylesheets"}}
+ <link rel="stylesheet" href="helpFaq.css">
+ <link rel="stylesheet" href="footerStyles.css">
+{{/extend}}
+
 {{#if data.accordion}}
 <div id= "faqAccordion">
-    <div class="accordion accordion-flush" id="accordionFlushExample">
+    <div class="accordion " id="accordion">
         {{#each data.accordion}}
               <div class="accordion-item">
                 <h2 class="accordion-header" id="{{this.id}}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{this.data_bs_target}}" aria-expanded="false" aria-controls="{{this.data_bs_target}}">
-                    {{this.heading}}
+                    <p class="h4">{{this.heading}}</p>
                 </button>
                 </h2>
                 <div id="{{this.data_bs_target}}" class="accordion-collapse collapse" aria-labelledby="{{this.id}}" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">{{{this.body}}}</div>
+                    <div class="accordion-body">
+                        {{{this.body}}}
+                    </div>
                 </div>
             </div>
         {{/each}}

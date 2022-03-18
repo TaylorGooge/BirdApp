@@ -83,11 +83,11 @@ app.get('/', function(req, res, next) {
     ],
     footerContact: [
       {
-        fas: 'fas fa-home me-3',
+        fas: '<i class="fa-solid fa-building"></i>',
         value: '1234 Street City, State, Zip',
       },
       {
-        fas: 'fas fa-envelope me-3',
+        fas: '<i class="fa-solid fa-envelope"></i>',
         value: 'birdapp@email.com',
       },
     ],
@@ -156,11 +156,11 @@ app.get('/map', requiresAuth(), function(req, res, next) {
     ],
     footerContact: [
       {
-        fas: 'fas fa-home me-3',
+        fas: '<i class="fa-solid fa-building"></i>',
         value: '1234 Street City, State, Zip',
       },
       {
-        fas: 'fas fa-envelope me-3',
+        fas: '<i class="fa-solid fa-envelope"></i>',
         value: 'birdapp@email.com',
       },
     ],
@@ -259,12 +259,12 @@ app.get('/profile', requiresAuth(), function(req, res, next) {
     ],
     footerContact: [
       {
-        fas: 'fas fa-home me-3',
+        fas: '<i class="fa-solid fa-building"></i>',
         value: '1234 Street City, State, Zip',
 
       },
       {
-        fas: 'fas fa-envelope me-3',
+        fas: '<i class="fa-solid fa-envelope"></i>',
         value: 'birdapp@email.com',
       },
     ],
@@ -337,12 +337,12 @@ app.get('/about', function(req, res, next) {
     ],
     footerContact: [
       {
-        fas: 'fas fa-home me-3',
+        fas: '<i class="fa-solid fa-building"></i>',
         value: '1234 Street City, State, Zip',
 
       },
       {
-        fas: 'fas fa-envelope me-3',
+        fas: '<i class="fa-solid fa-envelope"></i>',
         value: 'birdapp@email.com',
       },
     ],
@@ -409,12 +409,12 @@ app.get('/logout', requiresAuth(), function(req, res, next) {
     ],
     footerContact: [
       {
-        fas: 'fas fa-home me-3',
+        fas: '<i class="fa-solid fa-building"></i>',
         value: '1234 Street City, State, Zip',
 
       },
       {
-        fas: 'fas fa-envelope me-3',
+        fas: '<i class="fa-solid fa-envelope"></i>',
         value: 'birdapp@email.com',
       },
     ],
@@ -459,12 +459,12 @@ app.get('/help', function(req, res, next) {
         id: 'faq-1_id',
         data_bs_target: 'faq-1_target',
         heading: 'What are these codes?',
-        body: '<p>Bird codes, also known as banding codes or alpha codes,'+' are abbreviations for bird names used ' +
+        body: '<p class="faqText">Bird codes, also known as banding codes or alpha codes,'+' are abbreviations for bird names used ' +
                 'by bird banders, ornithologists, and birdwatchers in North and Central America.'+
                 ' The codes are written in capital letters, and look like, e.g., MODO for mourning dove.</p>' +
-                '<p>The first set contains four-letter codes based on English names while the second set ' +
+                '<p class="faqText">The first set contains four-letter codes based on English names while the second set ' +
                 'contains six-letter codes based on the scientific names.</p>' +
-                '<p>Source: <a href= "https://www.birdpop.org/pages/birdSpeciesCodes.php"> Institute for Bird Populations</p>',
+                '<p class="faqText" >Source: <a href= "https://www.birdpop.org/pages/birdSpeciesCodes.php"> Institute for Bird Populations</a></p>',
       },
       // {
       //     id: 'faq-2_id',
@@ -506,7 +506,7 @@ app.get('/help', function(req, res, next) {
       },
       {
         title: 'Profile',
-        current: true,
+        current: false,
         link: '/profile',
 
       },
@@ -518,12 +518,12 @@ app.get('/help', function(req, res, next) {
     ],
     footerContact: [
       {
-        fas: 'fas fa-home me-3',
+        fas: '<i class="fa-solid fa-building"></i>',
         value: '1234 Street City, State, Zip',
 
       },
       {
-        fas: 'fas fa-envelope me-3',
+        fas: '<i class="fa-solid fa-envelope"></i>',
         value: 'birdapp@email.com',
       },
     ],
