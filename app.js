@@ -484,8 +484,6 @@ app.get('/help', function(req, res, next) {
       //     heading: 'Question 4',
       //     body: 'This is the answer to the question'
       // }
-
-
     ],
 
     links: [
@@ -622,7 +620,7 @@ app.post('/getlogged', function(req, res, next) {
       throw (error);
     } else {
       const id =results[0].id;
-      db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+      db.query( 'SELECT birdcodes.englishName, defaultdb.birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
             'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
             'INNER JOIN birdSighting on ' +
             'birdcodes.birdID = birdSighting.birdId ' +
@@ -632,6 +630,7 @@ app.post('/getlogged', function(req, res, next) {
         if (error) {
           throw (error);
         }
+        console.log(JSON.stringify(results))
         res.send(JSON.stringify(results));
       });
     }

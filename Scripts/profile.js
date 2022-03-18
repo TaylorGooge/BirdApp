@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-/* eslint-disable guard-for-in */
 /* eslint-disable require-jsdoc */
 window.addEventListener('load', () => {
   getLogged();
@@ -35,10 +34,12 @@ function getLogged() {
           const table = document.getElementById('birdList');
           table.innerHTML = '';
           const range = 3;
+          // eslint-disable-next-line guard-for-in
           for ( const property in data) {
             const delButton = '<button class=\'btn btn-light\' onclick= \'deleteThis(this.parentNode.parentNode)\'>Delete</button>';
             const attributeVal = [`${data[property].englishName}`, convertDate(data[property].date), delButton];
             const row = document.createElement('tr');
+            // eslint-disable-next-line max-len
             row.setAttribute('id', `${data[property].id} ${data[property].userID} ${data[property].birdId}`);
             for (let i=0; i< range; i ++) {
               const col = document.createElement('td');
