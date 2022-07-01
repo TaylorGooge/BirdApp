@@ -1,26 +1,47 @@
 {{#extend "scripts"}}
     <script src = "maps.js" > </script>
+    <script src = "geoJson.js" > </script>
 {{/extend}}
 {{#extend "stylesheets"}}
 
 {{/extend}}
 <div id="map" style="clear:both; height:500px ;" class= 'container'>
     <script>
-        function getData() {
-            let geoData 
-            return fetch('/microservice', {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-            'Content-Type': 'application/json'
+        function toGeoJson(data) {
+            const outGeoJson = {};
+            for (let i =0; i < data.length; i++) {
+                outGeoJson['properties'] = data[i];
+                outGeoJson['type']= 'Feature';
+                outGeoJson['geometry']= {'type': 'Point', 'coordinates':
+                [data[i]['coordA'], data[i]['coordB']]};
             }
-            })
+            return outGeoJson;
+        }
+        function getData() {
+           return fetch('/getlogged', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            email: email,
+            }),
+        })
             .then(response => {
-           
-            let data = response.json()
-            console.log(data)
-            geoData = data
-            return geoData
+                let data = response.json()
+                .then( data => {
+                    const outGeoJson = {};
+                    for (let i =0; i < data.length; i++) {
+                        let coordA = parseFloat(data[i]['coordA']);
+                        let coordB = parseFloat(data[i]['coordB'])
+                        outGeoJson['properties'] = data[i];
+                        outGeoJson['type']= 'Feature';
+                        outGeoJson['geometry']= {'type': 'Point', 'coordinates':
+                        [coordA, coordB] };
+                    }
+                    return outGeoJson;
+                })
+                return data
             })
         }
     </script>
@@ -33,7 +54,6 @@
                 center: { lat: 41.850033, lng: -87.6500523 },
                 zoom: 5,
                 });
-           
                 map.data.addGeoJson(response);
                 map.data.setStyle({
                     strokeColor: "blue"})
@@ -45,7 +65,7 @@
 
                 map.data.addListener('click', function(event) {
                     let feat = event.feature;
-                    let html = "<b>" + feat.getProperty('Species')+ "</b>"
+                    let html = "<b>" + feat.getProperty('englishName')+ "</b>"
                     infoWindow.setContent(html);
                     infoWindow.setPosition(event.latLng);
                     infoWindow.setOptions({pixelOffset: new google.maps.Size(0,-34)});

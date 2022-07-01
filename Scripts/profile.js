@@ -15,6 +15,7 @@ function convertDate(date) {
   const sDay = sqlDateArr2[0];
   return new Date(sYear, sMonth, sDay);
 }
+
 function deleteThis(object) {
   let id = object.id;
   id = id.split(' ');
@@ -28,11 +29,11 @@ function deleteThis(object) {
       id,
     }),
   })
-  .then((response) => {
-    if (response.status == 200) {
-      getLogged();
-    }
-  });
+      .then((response) => {
+        if (response.status == 200) {
+          getLogged();
+        }
+      });
 }
 
 function getLogged() {
