@@ -1,6 +1,3 @@
-{{#extend "scripts"}}
-    <script src = "profile.js" > </script>
-{{/extend}}
 {{#extend "stylesheets"}}
        <link rel="stylesheet" href="profileStyles.css">
 {{/extend}}
@@ -9,10 +6,11 @@
 <div class="container mt-4 mb-4 p-3 d-flex justify-content-center" id= 'profile'>
     <div class="card p-4">
         <div class=" image d-flex flex-column justify-content-center align-items-center"> 
-            <img class ='profileDetails' src="{{data.user.profilePic}}" height="100" width="100" alt="Profile"/> 
-            <span class="name mt-3 profileDetails"> <b>Name:</b>{{data.user.firstName}} {{data.user.lastName}}</span> 
+            <img class ='profileDetails' src="{{userMap.profilePic}}" height="100" width="100" alt="Profile"/> 
+            <span class="name mt-3 profileDetails"> <b>Name:</b>{{userMap.firstName}} {{userMap.lastName}}</span> 
             <span class="idd profileDetails"> <b>Username:</b> {{data.user.userName}}</span>
-            <span class="profileDetails"> <b>Email:</b> {{data.user.email}}</span>
+            <span class="profileDetails"> <b>Email:</b> {{userMap.email}}</span>
+            <script> let email = "{{userMap.email}}"</script>
            
             <div class=" px-2 rounded mt-4 date "> <span class="lead">Recently Logged Birds </span> 
             
@@ -39,3 +37,6 @@
         </div>
     </div>
 </div>
+{{#extend "scripts"}}
+    <script src = "profile.js" > </script>
+{{/extend}}

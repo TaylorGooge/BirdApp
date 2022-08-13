@@ -5,10 +5,10 @@
  <link rel="stylesheet" href="footerStyles.css">
 {{/extend}}
 
-{{#if data.accordion}}
+{{#if accordion}}
 <div id= "faqAccordion">
     <div class="accordion " id="accordion">
-        {{#each data.accordion}}
+        {{#each accordion}}
               <div class="accordion-item">
                 <h2 class="accordion-header" id="{{this.id}}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{this.data_bs_target}}" aria-expanded="false" aria-controls="{{this.data_bs_target}}">
