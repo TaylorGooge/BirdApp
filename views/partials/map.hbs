@@ -1,103 +1,15 @@
 {{#extend "scripts"}}
     <script src = "maps.js" > </script>
-    <script src = "geoJson.js" > </script>
 {{/extend}}
 {{#extend "stylesheets"}}
 
 {{/extend}}
 <div id="map" style="clear:both; height:500px ;" class= 'container'>
     <script>
-        function toGeoJson(data) {
-            const outGeoJson = {};
-            for (let i =0; i < data.length; i++) {
-                outGeoJson['properties'] = data[i];
-                outGeoJson['type']= 'Feature';
-                outGeoJson['geometry']= {'type': 'Point', 'coordinates':
-                [data[i]['coordA'], data[i]['coordB']]};
-            }
-            return outGeoJson;
-        }
-        function getData() {
-           return fetch('/getlogged', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-            email: email,
-            }),
-        })
-            .then(response => {
-                let data = response.json()
-                .then( data => {
-                    const outGeoJson = {};
-                    for (let i =0; i < data.length; i++) {
-                        let coordA = parseFloat(data[i]['coordA']);
-                        let coordB = parseFloat(data[i]['coordB'])
-                        outGeoJson['properties'] = data[i];
-                        outGeoJson['type']= 'Feature';
-                        outGeoJson['geometry']= {'type': 'Point', 'coordinates':
-                        [coordA, coordB] };
-                    }
-                    return outGeoJson;
-                })
-                return data
-            })
-        }
+        
     </script>
     <script>
-
-        function initMap() {
-            getData()
-            .then(response =>{
-                map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: 41.850033, lng: -87.6500523 },
-                zoom: 5,
-                });
-                map.data.addGeoJson(response);
-                map.data.setStyle({
-                    strokeColor: "blue"})
-                let infoWindow = new google.maps.InfoWindow();
-                const locationButton = document.createElement("button");
-                locationButton.textContent = "Pan to Current Location";
-                locationButton.classList.add("custom-map-control-button");
-                map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
-
-                map.data.addListener('click', function(event) {
-                    let feat = event.feature;
-                    let html = "<b>" + feat.getProperty('englishName')+ "</b>"
-                    infoWindow.setContent(html);
-                    infoWindow.setPosition(event.latLng);
-                    infoWindow.setOptions({pixelOffset: new google.maps.Size(0,-34)});
-                    infoWindow.open(map);
-                });
-                locationButton.addEventListener("click", () => { 
-                    // Try HTML5 geolocation.
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            const pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                            };
-                            infoWindow.setPosition(pos);
-                            infoWindow.setContent("Location found.");
-                            infoWindow.open(map);
-                            map.setCenter(pos);
-                        },
-                        () => {
-                            handleLocationError(true, infoWindow, map.getCenter());
-                        }
-                        );
-                    } else {
-                        // Browser doesn't support Geolocation
-                        handleLocationError(false, infoWindow, map.getCenter());
-                    }
-                });
-            })
-          
-        }
     </script>
-   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9nbhtbGeolVY2g-PckOOSnfe3Fabea0w&callback=initMap&v=weekly&channel=2"></script>
+   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9nbhtbGeolVY2g-PckOOSnfe3Fabea0w&callback=initMap&v=weekly&channel=2"></script>
     
 </div>

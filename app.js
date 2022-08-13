@@ -7,6 +7,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const axios = require('axios');
+
 // ///handlebars setup//////
 let handlebars = require('handlebars');
 const {engine} = require('express-handlebars');
@@ -15,14 +16,16 @@ app.set('view engine', '.hbs');
 app.set('views', './views');
 const extend = require('handlebars-extend-block');
 handlebars = extend(handlebars);
-// /////////
+
+// ///env //////
 require('dotenv').config();
+
+// ///paths//////
 app.use(express.static(path.join(__dirname + '/Styles')));
 app.use(express.static(path.join(__dirname + '/Scripts')));
 app.use(express.static(path.join(__dirname + '/Images')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.set('port', port);
 
 // ///auth0 setup//////
 const {auth, requiresAuth} = require('express-openid-connect');
@@ -41,13 +44,6 @@ app.use(
 );
 
 
-// ///microservice//////
-app.get('/microservice', function(req, res, next ) {
-  axios.get('https://cs361-microservice-geojson.herokuapp.com/')
-      .then(function(response) {
-        res.send(response.data);
-      });
-});
 // ///routes//////
 app.get('/', function(req, res, next) {
   user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false;
@@ -636,7 +632,38 @@ app.post('/getlogged', function(req, res, next) {
   });
 });
 
+// app.get('/getsearch', function(req, res, next) {
+//   db.query( 'SELECT birdcodes.englishName, defaultdb.birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+//   'birdSighting.coordB, birdSighting.id FROM birdcodes '+
+//   'INNER JOIN birdSighting on ' +
+//   'birdcodes.birdID = birdSighting.birdId WHERE birdcodes.birdGroup= ?',
+//    [req.body.id], function(error, results) {
+//         if (error) {
+//           throw (error);
+//         }
+//         console.log(JSON.stringify(results))
+//         res.send(JSON.stringify(results));
+// });
+
 
 app.listen(app.get('port'), function() {
   console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
+
+// Creating object of key and certificate
+// for SSL
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('./localhost-key.pem'),
+  cert: fs.readFileSync('./localhost.pem'),
+};
+
+// Creating https server by passing
+// options and app object
+https.createServer(options, app)
+    .listen(port, function(req, res) {
+      console.log(`Server started at port ${port}`);
+    },
+    );

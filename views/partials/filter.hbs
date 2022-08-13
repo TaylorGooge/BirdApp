@@ -1,3 +1,7 @@
+{{#extend "scripts"}}
+    <script src = "maps.js" > </script>
+    <script src = "filterSearch.js" > </script>
+{{/extend}}
 <div class= 'container'>
     <h2>Filter Options </h2>
     <form>
@@ -10,26 +14,23 @@
         <div class = 'form-group'>
             <label for="functionalGroup"> Functional Group
                 <select class="form-control" type= 'select' id= "functionalGroup" >
-                    <option value = '0'> Select</option>
+                    <option value = '' disabled selected > Select</option>
                     <option value = '1'> Nightjars</option>
                     <option value = '2'> Ducks</option>
                     <option value = '3'> Geese</option>
                     <option value = '4'> Woodpeckers</option>
                     <option value = '5'> Songbirds</option>
                     <option value = '6'> Owls</option>
-                    <option value = '7'> Vultures</option>
-                    <option value = '8'> Doves</option>
-                    <option value = '9'> Gamebirds</option>
-                    <option value = '9'> Seabirds</option>
+                    <option value = '12'> Vultures</option>
+                    <option value = '13'> Doves</option>
+                    <option value = '7'> Gamebirds</option>
+                    <option value = '8'> Seabirds</option>
                     <option value = '9'> Shorebirds</option>
-                    <option value = '9'>Wading Birds</option>
-                    <option value = '9'> Raptors</option>
+                    <option value = '10'>Wading Birds</option>
+                    <option value = '11'> Raptors</option>
                 </select>
             </label>
-
         </div>
-          
-            <button class="btn btn-light" id = "submitBird">Submit</button>
+            <button class="btn btn-light" id = "submitBird" onclick = 'filterSearch(document.getElementById("functionalGroup").value)'>Submit</button>
     </form>
-
 </div>

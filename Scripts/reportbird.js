@@ -27,7 +27,6 @@ window.addEventListener('load', () => {
 
 function buildBirdDropDown(data) {
   // this function builds the vendor id dropdowns
-
   const dropDowns = document.getElementById('birdName');
   for (let i=0; i < data.length; i++) {
     const opt = document.createElement('option');
@@ -40,38 +39,42 @@ function buildBirdDropDown(data) {
 function recordBird() {
   // //get location
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          fetch('/postBird', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: email,
-              coordA: position.coords.longitude,
-              coordB: position.coords.latitude,
-              bird: document.getElementById('birdName').value,
-            } ),
-          })
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error(`Request failed with status ${reponse.status}`);
-                }
-                console.log(response);
-              });
-        },
-        () => {
-          handleLocationError(true, infoWindow, map.getCenter());
-        },
-    );
+    navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout: 30000000000, enableHighAccuracy: false, maximumAge: 75000});
   } else {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
   }
 }
 
+
+function foundLocation(pos) {
+  const formatPos = {
+    lat: pos.coords.latitude,
+    lng: pos.coords.longitude,
+  };
+  fetch('/postBird', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: email,
+      coordA: pos.coords.longitude,
+      coordB: pos.coords.latitude,
+      bird: document.getElementById('birdName').value,
+    } ),
+  })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${reponse.status}`);
+        }
+      });
+}
+
+function noLocation(err) {
+  if (err.code == 1) {
+    alert('Error: Access is denied!');
+  } else if ( err.code == 2) {
+    alert('Error: Position is unavailable!');
+  }
+}
