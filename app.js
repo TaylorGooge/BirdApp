@@ -15,6 +15,7 @@ app.engine('.hbs', engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', './views');
 const extend = require('handlebars-extend-block');
+const globals= require('./handlebarsGlobals');
 handlebars = extend(handlebars);
 
 // ///env //////
@@ -31,6 +32,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 const {auth, requiresAuth} = require('express-openid-connect');
 app.set('trust proxy', true);
 
+function getUser(req) {
+  return {
+    user: req.oidc.isAuthenticated() ? req.oidc.user.nickname : false,
+    email: req.oidc.isAuthenticated() ? req.oidc.user.email : false,
+  };
+}
 
 app.use(
     auth({
@@ -43,149 +50,13 @@ app.use(
     }),
 );
 
-
 // ///routes//////
 app.get('/', function(req, res, next) {
-  user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false;
-  const data = {
-    userNav: user,
-    links: [
-      {
-        title: 'Home',
-        current: true,
-        link: '/',
-      },
-      {
-        title: 'About',
-        current: false,
-        link: '/about',
-      },
-      {
-        title: 'Map',
-        current: false,
-        link: '/map',
-      },
-      {
-        title: 'Profile',
-        current: false,
-        link: '/profile',
-
-      },
-      {
-        title: 'Logout',
-        current: false,
-        link: '/logout',
-      },
-    ],
-    footerContact: [
-      {
-        fas: '<i class="fa-solid fa-building"></i>',
-        value: '1234 Street City, State, Zip',
-      },
-      {
-        fas: '<i class="fa-solid fa-envelope"></i>',
-        value: 'birdapp@email.com',
-      },
-    ],
-    footerUsefulLinks: [
-      {
-        title: 'eBird',
-        link: 'https://ebird.org/home',
-      },
-      {
-        title: 'Institute for Bird Populations',
-        link: 'https://www.birdpop.org/',
-      },
-      {
-        title: 'National Audubon Society',
-        link: 'https://www.audubon.org/',
-      },
-    ],
-    footerHelpLinks: [
-      {
-        title: 'About',
-        link: '/about',
-      },
-      {
-        title: 'Help',
-        link: '/help',
-      },
-    ],
-  };
-  res.render('index', {data: data});
+  res.render('index', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Home'});
 });
 
 app.get('/map', requiresAuth(), function(req, res, next) {
-  user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false;
-  email = req.oidc.isAuthenticated() ? req.oidc.user.email : false;
-
-  const data = {
-    userNav: user,
-    userEmail: email,
-    links: [
-      {
-        title: 'Home',
-        current: false,
-        link: '/',
-      },
-      {
-        title: 'About',
-        current: false,
-        link: '/about',
-      },
-      {
-        title: 'Map',
-        current: true,
-        link: '/map',
-      },
-      {
-        title: 'Profile',
-        current: false,
-        link: '/profile',
-
-      },
-      {
-        title: 'Logout',
-        current: false,
-        link: '/logout',
-      },
-    ],
-    footerContact: [
-      {
-        fas: '<i class="fa-solid fa-building"></i>',
-        value: '1234 Street City, State, Zip',
-      },
-      {
-        fas: '<i class="fa-solid fa-envelope"></i>',
-        value: 'birdapp@email.com',
-      },
-    ],
-    footerUsefulLinks: [
-      {
-        title: 'eBird',
-        link: 'https://ebird.org/home',
-      },
-      {
-        title: 'Institute for Bird Populations',
-        link: 'https://www.birdpop.org/',
-      },
-      {
-        title: 'National Audubon Society',
-        link: 'https://www.audubon.org/',
-      },
-    ],
-    footerHelpLinks: [
-      {
-        title: 'About',
-        link: '/about',
-      },
-      {
-        title: 'Help',
-        link: '/help',
-      },
-    ],
-  };
-  res.render('map', {data: data});
+  res.render('map', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Map'});
 });
 
 app.get('/profile', requiresAuth(), function(req, res, next) {
@@ -198,357 +69,23 @@ app.get('/profile', requiresAuth(), function(req, res, next) {
     userName: req.oidc.user.nickname,
     profilePic: req.oidc.user.picture,
   };
-
-  const loggedBirdsMap = [
-    {
-      species: 'Bird 1',
-      date: '01/02/22',
-      location: 'example',
-    },
-    {
-      species: 'Bird 2',
-      date: '01/03/22',
-      location: 'example',
-    },
-    {
-      species: 'Bird 3',
-      date: '01/04/22',
-      location: 'example',
-    },
-    {
-      species: 'Bird 4',
-      date: '01/04/22',
-      location: 'example',
-    },
-  ];
-  const data = {
-    userNav: userNav,
-    user: userMap,
-    loggedBirds: loggedBirdsMap,
-    links: [
-      {
-        title: 'Home',
-        current: false,
-        link: '/',
-      },
-      {
-        title: 'About',
-        current: false,
-        link: '/about',
-      },
-      {
-        title: 'Map',
-        current: false,
-        link: '/map',
-      },
-      {
-        title: 'Profile',
-        current: true,
-        link: '/profile',
-
-      },
-      {
-        title: 'Logout',
-        current: false,
-        link: '/logout',
-      },
-    ],
-    footerContact: [
-      {
-        fas: '<i class="fa-solid fa-building"></i>',
-        value: '1234 Street City, State, Zip',
-
-      },
-      {
-        fas: '<i class="fa-solid fa-envelope"></i>',
-        value: 'birdapp@email.com',
-      },
-    ],
-    footerUsefulLinks: [
-      {
-        title: 'eBird',
-        link: 'https://ebird.org/home',
-
-      },
-      {
-        title: 'Institute for Bird Populations',
-        link: 'https://www.birdpop.org/',
-      },
-      {
-        title: 'National Audubon Society',
-        link: 'https://www.audubon.org/',
-      },
-    ],
-    footerHelpLinks: [
-      {
-        title: 'About',
-        link: '/about',
-      },
-      {
-        title: 'Help',
-        link: '/help',
-      },
-    ],
-  };
-
-  res.render('profile', {data: data});
+  res.render('profile', {headerFooter: globals.globalVars['headerFooter'], userMap: userMap, user: getUser(req)});
 });
 
-app.get('/test'), function(req, res, next) {
-  res.render('test');
-};
 
 app.get('/about', function(req, res, next) {
-  user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false;
-
-  const data = {
-    userNav: user,
-    links: [
-      {
-        title: 'Home',
-        current: false,
-        link: '/',
-      },
-      {
-        title: 'About',
-        current: true,
-        link: '/about',
-      },
-      {
-        title: 'Map',
-        current: false,
-        link: '/map',
-      },
-      {
-        title: 'Profile',
-        current: false,
-        link: '/profile',
-
-      },
-      {
-        title: 'Logout',
-        current: false,
-        link: '/logout',
-      },
-    ],
-    footerContact: [
-      {
-        fas: '<i class="fa-solid fa-building"></i>',
-        value: '1234 Street City, State, Zip',
-
-      },
-      {
-        fas: '<i class="fa-solid fa-envelope"></i>',
-        value: 'birdapp@email.com',
-      },
-    ],
-    footerUsefulLinks: [
-      {
-        title: 'eBird',
-        link: 'https://ebird.org/home',
-
-      },
-      {
-        title: 'Institute for Bird Populations',
-        link: 'https://www.birdpop.org/',
-      },
-      {
-        title: 'National Audubon Society',
-        link: 'https://www.audubon.org/',
-      },
-    ],
-    footerHelpLinks: [
-      {
-        title: 'About',
-        link: '/about',
-      },
-      {
-        title: 'Help',
-        link: '/help',
-      },
-    ],
-  };
-  res.render('about', {data: data});
+  res.render('about', {headerFooter: globals.globalVars['headerFooter'], user: getUser(req)});
 });
 
 app.get('/logout', requiresAuth(), function(req, res, next) {
-  user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false;
-  const data = {
-    userNav: user,
-    links: [
-      {
-        title: 'Home',
-        current: false,
-        link: '/',
-      },
-      {
-        title: 'About',
-        current: false,
-        link: '/about',
-      },
-      {
-        title: 'Map',
-        current: false,
-        link: '/map',
-      },
-      {
-        title: 'Account info',
-        current: true,
-        link: '/profile',
-
-      },
-      {
-        title: 'Logout',
-        current: false,
-        link: '/logout',
-      },
-    ],
-    footerContact: [
-      {
-        fas: '<i class="fa-solid fa-building"></i>',
-        value: '1234 Street City, State, Zip',
-
-      },
-      {
-        fas: '<i class="fa-solid fa-envelope"></i>',
-        value: 'birdapp@email.com',
-      },
-    ],
-    footerUsefulLinks: [
-      {
-        title: 'eBird',
-        link: 'https://ebird.org/home',
-
-      },
-      {
-        title: 'Institute for Bird Populations',
-        link: 'https://www.birdpop.org/',
-      },
-      {
-        title: 'National Audubon Society',
-        link: 'https://www.audubon.org/',
-      },
-    ],
-    footerHelpLinks: [
-      {
-        title: 'About',
-        link: '/about',
-      },
-      {
-        title: 'Help',
-        link: '/help',
-      },
-    ],
-  };
   axios.get('https://' + baseURL + '/v2/logout?' +
         'client_id=' + clientID + '&returnTo=' + baseUrl);
 
-  res.render('index', {data: data});
+  res.render('index', {headerFooter: globals.globalVars['headerFooter'], user: getUser(req)});
 });
 
 app.get('/help', function(req, res, next) {
-  user = req.oidc.isAuthenticated() ? req.oidc.user.nickname : false;
-  const data = {
-    userNav: user,
-    accordion: [
-      {
-        id: 'faq-1_id',
-        data_bs_target: 'faq-1_target',
-        heading: 'What are these codes?',
-        body: '<p class="faqText">Bird codes, also known as banding codes or alpha codes,'+' are abbreviations for bird names used ' +
-                'by bird banders, ornithologists, and birdwatchers in North and Central America.'+
-                ' The codes are written in capital letters, and look like, e.g., MODO for mourning dove.</p>' +
-                '<p class="faqText">The first set contains four-letter codes based on English names while the second set ' +
-                'contains six-letter codes based on the scientific names.</p>' +
-                '<p class="faqText" >Source: <a href= "https://www.birdpop.org/pages/birdSpeciesCodes.php"> Institute for Bird Populations</a></p>',
-      },
-      // {
-      //     id: 'faq-2_id',
-      //     data_bs_target: 'faq-2_target',
-      //     heading: 'Question 2',
-      //     body: 'This is the answer to the question'
-      // },
-      // {
-      //     id: 'faq-3_id',
-      //     data_bs_target: 'faq-3_target',
-      //     heading: 'Question 3',
-      //     body: 'This is the answer to the question'
-      // },
-      // {
-      //     id: 'faq-4_id',
-      //     data_bs_target: 'faq-4_target',
-      //     heading: 'Question 4',
-      //     body: 'This is the answer to the question'
-      // }
-    ],
-
-    links: [
-      {
-        title: 'Home',
-        current: false,
-        link: '/',
-      },
-      {
-        title: 'About',
-        current: false,
-        link: '/about',
-      },
-      {
-        title: 'Map',
-        current: false,
-        link: '/map',
-      },
-      {
-        title: 'Profile',
-        current: false,
-        link: '/profile',
-
-      },
-      {
-        title: 'Logout',
-        current: false,
-        link: '/logout',
-      },
-    ],
-    footerContact: [
-      {
-        fas: '<i class="fa-solid fa-building"></i>',
-        value: '1234 Street City, State, Zip',
-
-      },
-      {
-        fas: '<i class="fa-solid fa-envelope"></i>',
-        value: 'birdapp@email.com',
-      },
-    ],
-    footerUsefulLinks: [
-      {
-        title: 'eBird',
-        link: 'https://ebird.org/home',
-
-      },
-      {
-        title: 'Institute for Bird Populations',
-        link: 'https://www.birdpop.org/',
-      },
-      {
-        title: 'National Audubon Society',
-        link: 'https://www.audubon.org/',
-      },
-    ],
-    footerHelpLinks: [
-      {
-        title: 'About',
-        link: '/about',
-      },
-      {
-        title: 'Help',
-        link: '/help',
-      },
-    ],
-  };
-
-  res.render('help', {data: data});
+  res.render('help', {headerFooter: globals.globalVars['headerFooter'], user: getUser(req), accordion: globals.globalVars['accordion']});
 },
 );
 // ///api//////
