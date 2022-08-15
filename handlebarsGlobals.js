@@ -24,11 +24,6 @@ globalVars['headerFooter']= {
       link: '/profile',
 
     },
-    {
-      title: 'Logout',
-      current: false,
-      link: '/logout',
-    },
   ],
   footerContact: [
     {

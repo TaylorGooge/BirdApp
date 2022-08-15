@@ -1,4 +1,6 @@
-function filterSearch(selection) {
-  event.preventDefault;
-  
-}
+
+
+$(document).ready(function() {
+  $('.search-select-basic-single').select2();
+});
+

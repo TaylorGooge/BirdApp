@@ -8,7 +8,8 @@ window.addEventListener('load', () => {
   req.addEventListener('load', function() {
     if (req.status >= 200 && req.status < 400) {
       const res = JSON.parse(req.responseText);
-      buildBirdDropDown(res);
+      buildBirdDropDown(res, 'birdName', 'bird-select-basic-single');
+      buildBirdDropDown(res, 'speciesSearch', 'dropdown-basic-single');
     } else {
       // showModal("Task Failed", "There was a problem fetching Suppliers")
       return;
@@ -25,15 +26,16 @@ window.addEventListener('load', () => {
   });
 });
 
-function buildBirdDropDown(data) {
+function buildBirdDropDown(data, id, sselector) {
   // this function builds the vendor id dropdowns
-  const dropDowns = document.getElementById('birdName');
+  const dropDowns = document.getElementById(id);
   for (let i=0; i < data.length; i++) {
     const opt = document.createElement('option');
     opt.innerText = data[i].englishName + ' ' + data[i].fourCode + ' ' + data[i].scientificName + ' ' + data[i].sixCode;
     opt.setAttribute('value', data[i].birdID);
     dropDowns.appendChild(opt);
   }
+  $(`.${sselector}`).select2();
 }
 
 function recordBird() {
@@ -46,12 +48,7 @@ function recordBird() {
   }
 }
 
-
 function foundLocation(pos) {
-  const formatPos = {
-    lat: pos.coords.latitude,
-    lng: pos.coords.longitude,
-  };
   fetch('/postBird', {
     method: 'POST',
     headers: {
