@@ -31,6 +31,7 @@ app.use(express.static(path.join(__dirname + '/Images')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/', api);
+app.set('port', port);
 
 // ///auth0 setup//////
 const {auth, requiresAuth} = require('express-openid-connect');
