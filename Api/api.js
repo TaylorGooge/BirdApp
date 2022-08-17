@@ -68,7 +68,7 @@ router.post('/getlogged', function(req, res, next) {
       throw (error);
     } else {
       const id =results[0].id;
-      db.query( 'SELECT birdcodes.englishName, defaultdb.birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+      db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
               'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
               'INNER JOIN birdSighting on ' +
               'birdcodes.birdID = birdSighting.birdId ' +
@@ -85,7 +85,7 @@ router.post('/getlogged', function(req, res, next) {
 });
 
 // router.get('/getsearch', function(req, res, next) {
-//   db.query( 'SELECT birdcodes.englishName, defaultdb.birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+//   db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
 //   'birdSighting.coordB, birdSighting.id FROM birdcodes '+
 //   'INNER JOIN birdSighting on ' +
 //   'birdcodes.birdID = birdSighting.birdId WHERE birdcodes.birdGroup= ?',
