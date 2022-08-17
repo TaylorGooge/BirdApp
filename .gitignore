@@ -1,5 +1,4 @@
 .env
-.envTest
 node_modules/
 .DS_Store
 

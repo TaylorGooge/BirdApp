@@ -89,22 +89,5 @@ app.get('/help', function(req, res, next) {
 },
 );
 
-
-// ///create server //////
-const https = require('https');
-const fs = require('fs');
-
-const options = {
-  key: fs.readFileSync('./localhost-key.pem'),
-  cert: fs.readFileSync('./localhost.pem'),
-};
-
-if (process.env.NODE_ENV !== 'test') {
-  https.createServer(options, app)
-      .listen(port, function(req, res) {
-        console.log(`Server started at port ${port}`);
-      },
-      );
-}
 module.exports = app;
 

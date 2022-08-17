@@ -1,9 +1,8 @@
 const request = require('supertest');
-const app = require('../app.js');
-
+const app = require('../testApp');
 
 describe('POST /getUserId', () => {
-  test('get unregistered user', async () => {
+  test('get unregistered user- should register the user', async () => {
     const response = await request(app)
         .post('/getUserID')
         .send({
@@ -12,7 +11,7 @@ describe('POST /getUserId', () => {
     expect(response.statusCode).toBe(200);
   });
 
-  test('get registered user', async () => {
+  test('get registered user- returns the user id', async () => {
     const response = await request(app)
         .post('/getUserID')
         .send({
@@ -23,3 +22,5 @@ describe('POST /getUserId', () => {
     expect(property).toEqual([{'id': 1, 'email': 'taylorgooge@gmail.com'}]);
   });
 });
+
+
