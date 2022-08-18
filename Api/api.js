@@ -3,6 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 require('dotenv').config();
 const moment = require('moment');
+const toGeoJson = require('../Scripts/helpers')
 
 // ///api//////
 const db = mysql.createPool({
@@ -66,8 +67,8 @@ router.post('/deleteEntry', function(req, res, next) {
   });
 });
 
-router.post('/getlogged', function(req, res, next) {
-  db.query('SELECT id FROM birdUsers WHERE email= ?', [req.body.email], function(error, results) {
+router.get('/getlogged', function(req, res, next) {
+  db.query('SELECT id FROM birdUsers WHERE email= ?', [req.query.email], function(error, results) {
     if (error) {
       throw (error);
     } else {
