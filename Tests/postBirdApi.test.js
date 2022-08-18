@@ -72,7 +72,7 @@ describe('POST /postBird', () => {
     expect(response.statusCode).toBe(401);
   });
 
-  test('create bird sighting invalid coordB', async () => {
+  test('create bird sighting invalid date', async () => {
     const response = await request(app)
         .post('/postBird')
         .send({

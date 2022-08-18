@@ -32,62 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/', api);
 
-// ///auth0 setup//////
-const {auth, requiresAuth} = require('express-openid-connect');
 app.set('trust proxy', true);
-
-function getUser(req) {
-  return {
-    user: req.oidc.isAuthenticated() ? req.oidc.user.nickname : false,
-    email: req.oidc.isAuthenticated() ? req.oidc.user.email : false,
-  };
-}
-
-app.use(
-    auth({
-      authRequired: false,
-      auth0Logout: true,
-      secret: process.env.secret,
-      baseURL: process.env. baseURL,
-      clientID: process.env.clientID,
-      issuerBaseURL: process.env.issuerBaseURL,
-    }),
-);
-
-// ///routes//////
-app.get('/', function(req, res, next) {
-  res.render('index', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Home'});
-});
-
-app.get('/map', requiresAuth(), function(req, res, next) {
-  res.render('map', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Map'});
-});
-
-app.get('/profile', requiresAuth(), function(req, res, next) {
-  const userMap = {
-    email: req.oidc.user.email,
-    firstName: req.oidc.user.given_name,
-    lastName: req.oidc.user.family_name,
-    userName: req.oidc.user.nickname,
-    profilePic: req.oidc.user.picture,
-  };
-  res.render('profile', {headerFooter: globals.globalVars['headerFooter'], userMap: userMap, userNav: getUser(req)});
-});
-
-app.get('/about', function(req, res, next) {
-  res.render('about', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req)});
-});
-
-app.get('/logout', requiresAuth(), function(req, res, next) {
-  axios.get('https://' + baseURL + '/v2/logout?' +
-        'client_id=' + clientID + '&returnTo=' + baseUrl);
-  res.render('index', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req)});
-});
-
-app.get('/help', function(req, res, next) {
-  res.render('help', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), accordion: globals.globalVars['accordion']});
-},
-);
 
 module.exports = app;
 
