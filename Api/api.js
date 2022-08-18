@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 require('dotenv').config();
+const moment = require('moment');
 
 // ///api//////
 const db = mysql.createPool({
@@ -39,13 +40,16 @@ router.post('/postBird', function(req, res, next) {
   const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
   db.query('SELECT id FROM birdUsers WHERE email= ?', [req.body.email], function(error, results) {
     if (error) {
-      throw (error);
+      res.status(401).json({error: 'Couldn\'t complete request- problem with user id'});
     } else {
+      if (!results[0]) {
+        return res.status(401).json({error: 'Couldn\'t complete request- problem with user id'});
+      }
       const id =results[0].id;
       db.query('INSERT INTO birdSighting (userID, birdID, coordA, coordB, date) VALUES (?, ?, ?, ?, ?)', [id, req.body.bird,
         req.body.coordA, req.body.coordB, date], function(error, results) {
         if (error) {
-          throw (error);
+          res.status(401).json({error: 'Couldn\'t complete request- issue with birdSighting'});
         }
         res.send(JSON.stringify(results));
       });
@@ -58,7 +62,7 @@ router.post('/deleteEntry', function(req, res, next) {
     if (error) {
       throw (error);
     }
-    res.sendStatus(200);
+    res.send(JSON.stringify(results));
   });
 });
 

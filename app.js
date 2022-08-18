@@ -5,7 +5,6 @@ const mysql = require('mysql');
 const port = process.env.PORT || 3656;
 const path = require('path');
 const bodyParser = require('body-parser');
-const moment = require('moment');
 const axios = require('axios');
 
 // ///handlebars setup//////
