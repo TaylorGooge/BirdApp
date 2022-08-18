@@ -11,7 +11,7 @@ window.addEventListener('load', () => {
       buildBirdDropDown(res, 'birdName', 'bird-select-basic-single');
       buildBirdDropDown(res, 'speciesSearch', 'dropdown-basic-single');
     } else {
-      // showModal("Task Failed", "There was a problem fetching Suppliers")
+      $('#errorModal').modal('show');
       return;
     }
   });
@@ -20,7 +20,7 @@ window.addEventListener('load', () => {
   document.getElementById('submitBird').addEventListener('click', function(e) {
     e.preventDefault();
     if (document.getElementById('birdName').value == '0') {
-      return;
+      return $('#errorModal').modal('show');
     }
     recordBird();
   });
@@ -59,11 +59,13 @@ function foundLocation(pos) {
       coordA: pos.coords.longitude,
       coordB: pos.coords.latitude,
       bird: document.getElementById('birdName').value,
-    } ),
+    }),
   })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`Request failed with status ${reponse.status}`);
+          return $('#errorModal').modal('show');
+        } else {
+          return $('#successModal').modal('show');
         }
       });
 }
