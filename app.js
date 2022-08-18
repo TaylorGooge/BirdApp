@@ -41,6 +41,7 @@ function getUser(req) {
   return {
     user: req.oidc.isAuthenticated() ? req.oidc.user.nickname : false,
     email: req.oidc.isAuthenticated() ? req.oidc.user.email : false,
+    userName: req.oidc.isAuthenticated() ? req.oidc.user.nickname : false,
   };
 }
 
@@ -95,7 +96,6 @@ app.get('/help', function(req, res, next) {
   res.render('help', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), accordion: globals.globalVars['accordion']});
 },
 );
-
 
 // ///create server //////
 app.listen(app.get('port'), function() {

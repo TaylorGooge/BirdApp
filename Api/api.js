@@ -28,11 +28,15 @@ router.get('/getbirds', function(req, res, next) {
 router.post('/getUserID', function(req, res, next) {
   db.query('SELECT * FROM birdUsers WHERE email= ?', [req.body.email], function(error, results) {
     if (results.length === 0 ) {
-      db.query('INSERT INTO birdUsers (email) VALUES (?)', [req.body.email], function( err, results2) {
-        if (err) {
-          throw (err);
-        }
-      });
+      if (!(req.body.email && req.body.userName)) {
+        return res.status(401).json({error: 'Couldn\'t complete request- request missing data'});
+      } else {
+        db.query('INSERT INTO birdUsers (email, userName) VALUES (?, ?)', [req.body.email, req.body.userName], function( err, results2) {
+          if (err) {
+            return res.status(401).json({error: 'Couldn\'t complete request- problem with user id'});
+          }
+        });
+      }
     }
     res.send(JSON.stringify(results));
   });
@@ -74,13 +78,12 @@ router.get('/searchBird/:id?/:group?', function(req, res, next) {
     res.send(JSON.stringify(results));
   }
   if (req.query.id) {
-    db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+    db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdUsers.userName, birdSighting.birdId, birdSighting.coordA, ' +
                 'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
                 'INNER JOIN birdSighting on ' +
                 'birdcodes.birdID = birdSighting.birdId ' +
-                'WHERE birdSighting.birdID = ? ' +
-                'ORDER BY  birdSighting.date desc '+
-              'LIMIT 5', [req.query.id], function(error, results) {
+                'INNER JOIN birdUsers on birdUsers.id = birdSighting.userID ' +
+                'WHERE birdSighting.birdID = ? ', [req.query.id], function(error, results) {
       if (error) {
         throw (error);
       }
@@ -88,10 +91,11 @@ router.get('/searchBird/:id?/:group?', function(req, res, next) {
       res.send(JSON.stringify(results));
     });
   } else {
-    db.query('SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+    db.query('SELECT birdcodes.englishName, birdSighting.date, birdUsers.userName, birdSighting.birdID, birdSighting.coordA, ' +
       'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
       'INNER JOIN birdSighting on ' +
-      'birdcodes.birdID = birdSighting.birdId ' +
+      'birdcodes.birdID = birdSighting.birdID ' +
+      'INNER JOIN birdUsers on birdUsers.id = birdSighting.userID ' +
       'WHERE birdcodes.birdGroup = ? ', [req.query.group], function(error, results1) {
       if (error) {
         throw (error);
@@ -106,14 +110,19 @@ router.get('/searchBird/:id?/:group?', function(req, res, next) {
 
 router.get('/getlogged', function(req, res, next) {
   db.query('SELECT id FROM birdUsers WHERE email= ?', [req.query.email], function(error, results) {
-    if (error) {
-      throw (error);
+    if (results.length === 0 ) {
+      db.query('INSERT INTO birdUsers (email, userName) VALUES (?, ?)', [req.query.email, req.query.userName], function( err, results2) {
+        if (err) {
+          res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
+        }
+      });
     } else {
       const id =results[0].id;
-      db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+      db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdUsers.userName, birdSighting.birdID, birdSighting.coordA, ' +
               'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
               'INNER JOIN birdSighting on ' +
-              'birdcodes.birdID = birdSighting.birdId ' +
+              'birdcodes.birdID = birdSighting.birdID ' +
+              'INNER JOIN birdUsers on birdUsers.id = birdSighting.userID ' +
               'WHERE birdSighting.userID = ? ' +
               'ORDER BY  birdSighting.date desc '+
               'LIMIT 5', [id], function(error, results) {
@@ -125,18 +134,5 @@ router.get('/getlogged', function(req, res, next) {
     }
   });
 });
-
-// router.get('/getsearch', function(req, res, next) {
-//   db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
-//   'birdSighting.coordB, birdSighting.id FROM birdcodes '+
-//   'INNER JOIN birdSighting on ' +
-//   'birdcodes.birdID = birdSighting.birdId WHERE birdcodes.birdGroup= ?',
-//    [req.body.id], function(error, results) {
-//         if (error) {
-//           throw (error);
-//         }
-//         console.log(JSON.stringify(results))
-//         res.send(JSON.stringify(results));
-// });
 
 module.exports = router;

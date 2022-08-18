@@ -20,6 +20,7 @@ describe('Get /searchBird', () => {
       coordA: expect.any(String),
       coordB: expect.any(String),
       userID: expect.any(Number),
+      userName: expect.any(String),
       englishName: expect.any(String),
     }));
   });
@@ -44,6 +45,7 @@ describe('Get /searchBird', () => {
       coordA: expect.any(String),
       coordB: expect.any(String),
       userID: expect.any(Number),
+      userName: expect.any(String),
       englishName: expect.any(String),
     }));
   });
