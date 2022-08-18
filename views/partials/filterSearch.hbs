@@ -3,17 +3,19 @@
 {{/extend}}
 <div class= 'container'>
     <h2>Filter Options </h2>
-    <form>
+    <form id = 'searchForm'>
         <div class = 'form-group'>
             <label for="speciesSearch">Species
-                <input type="text" class="form-control dropdown-basic-single" id="speciesSearch" aria-describedby="speciesSearchExp" >
+                 <select class="form-control dropdown-basic-single" type= 'select' id= "speciesSearch" autocomplete= "on">
+                    <option value = '0'> Select</option>
+                </select>
             </label>
             <small id="speciesSearchExp" class="form-text text-muted">Input 4 letter code, 6 letter code, Scientific Name, or English Name</small>
         </div>
         <div class = 'form-group'>
             <label for="functionalGroup"> Functional Group
                 <select class="form-control search-select-basic-single" type= 'select' id= "functionalGroup" >
-                    <option value = '' disabled selected > Select</option>
+                    <option value = '0' selected > Select</option>
                     <option value = '1'> Nightjars</option>
                     <option value = '2'> Ducks</option>
                     <option value = '3'> Geese</option>
@@ -30,9 +32,10 @@
                 </select>
             </label>
         </div>
-            <button class="btn btn-light" id = "search-submitBird" onclick = 'filterSearch(document.getElementById("functionalGroup").value)'>Submit</button>
+            <button class="btn btn-light" id = "search-submitBird">Submit</button>
     </form>
 </div>
 {{#extend "scripts"}}
+    <script src = "toGeoJson.js" > </script>
     <script src = "filterSearch.js" > </script>
 {{/extend}}

@@ -1,9 +1,10 @@
+/* eslint-disable max-len */
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 require('dotenv').config();
 const moment = require('moment');
-const toGeoJson = require('../Scripts/helpers')
+const toGeoJson = require('../Scripts/helpers');
 
 // ///api//////
 const db = mysql.createPool({
@@ -65,6 +66,42 @@ router.post('/deleteEntry', function(req, res, next) {
     }
     res.send(JSON.stringify(results));
   });
+});
+
+router.get('/searchBird/:id?/:group?', function(req, res, next) {
+  if (!(req.query.id || req.query.group)) {
+    res.status(401).json({error: 'Couldn\'t complete request- request is empty'});
+    res.send(JSON.stringify(results));
+  }
+  if (req.query.id) {
+    db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+                'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
+                'INNER JOIN birdSighting on ' +
+                'birdcodes.birdID = birdSighting.birdId ' +
+                'WHERE birdSighting.birdID = ? ' +
+                'ORDER BY  birdSighting.date desc '+
+              'LIMIT 5', [req.query.id], function(error, results) {
+      if (error) {
+        throw (error);
+      }
+      // todo to geojson
+      res.send(JSON.stringify(results));
+    });
+  } else {
+    db.query('SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+      'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
+      'INNER JOIN birdSighting on ' +
+      'birdcodes.birdID = birdSighting.birdId ' +
+      'WHERE birdcodes.birdGroup = ? ', [req.query.group], function(error, results1) {
+      if (error) {
+        throw (error);
+      } else {
+        // todo to geojson
+        res.send(JSON.stringify(results1));
+      }
+    });
+  }
+  ;
 });
 
 router.get('/getlogged', function(req, res, next) {
