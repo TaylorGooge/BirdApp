@@ -37,14 +37,11 @@ function deleteThis(object) {
 }
 
 function getLogged() {
-  fetch('/getlogged', {
-    method: 'POST',
+  fetch(`/getlogged?email=${email}`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      email: email,
-    }),
   })
       .then((response) => {
         if (!response.ok) {
