@@ -106,8 +106,13 @@ router.get('/searchBird/:id?/:group?', function(req, res, next) {
 
 router.get('/getlogged', function(req, res, next) {
   db.query('SELECT id FROM birdUsers WHERE email= ?', [req.query.email], function(error, results) {
-    if (error) {
-      throw (error);
+    if (results.length === 0 ) {
+      db.query('INSERT INTO birdUsers (email) VALUES (?)', [req.query.email], function( err, results2) {
+        if (err) {
+          res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
+          return;
+        }
+      });
     } else {
       const id =results[0].id;
       db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
@@ -116,7 +121,7 @@ router.get('/getlogged', function(req, res, next) {
               'birdcodes.birdID = birdSighting.birdId ' +
               'WHERE birdSighting.userID = ? ' +
               'ORDER BY  birdSighting.date desc '+
-              'LIMIT 5', [id], function(error, results) {
+              'LIMIT 5', [id], function(error, resultss) {
         if (error) {
           throw (error);
         }

@@ -6,9 +6,9 @@
 <div class="container mt-4 mb-4 p-3 d-flex justify-content-center" id= 'profile'>
     <div class="card p-4">
         <div class=" image d-flex flex-column justify-content-center align-items-center"> 
-            <img class ='profileDetails' src="{{userMap.profilePic}}" height="100" width="100" alt="Profile"/> 
+            <img class ='profileDetails' {{#if userMap.profilePic}} src="{{userMap.profilePic}}" {{else}} src="profileFallback.png" {{/if}} height="100" width="100" alt="Profile"/> 
             <span class="name mt-3 profileDetails"> <b>Name:</b>{{userMap.firstName}} {{userMap.lastName}}</span> 
-            <span class="idd profileDetails"> <b>Username:</b> {{data.user.userName}}</span>
+            <span class="idd profileDetails"> <b>Username:</b> {{userMap.userName}}</span>
             <span class="profileDetails"> <b>Email:</b> {{userMap.email}}</span>     
             <div class=" px-2 rounded mt-4 date "> <span class="lead">Recently Logged Birds </span> 
                 <div class = 'container' id= 'profileContainer'>
@@ -22,7 +22,10 @@
                                     Date
                                 </th>
                                 <th>
-                                    Delete <button class= 'btn btn-light' data-bs-toggle="modal" data-bs-target="#deleteBirdModal">?</button>
+                                    Delete 
+                                </th>
+                                <th>
+                                    <button class= 'btn btn-light' data-bs-toggle="modal" data-bs-target="#deleteBirdModal">?</button>
                                 </th>
                             </tr>
                         </thead>
