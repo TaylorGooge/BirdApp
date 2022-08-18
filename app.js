@@ -5,8 +5,8 @@ const mysql = require('mysql');
 const port = process.env.PORT || 3656;
 const path = require('path');
 const bodyParser = require('body-parser');
-const moment = require('moment');
 const axios = require('axios');
+const helpers = require('./Scripts/helpers');
 
 // ///handlebars setup//////
 let handlebars = require('handlebars');
@@ -49,7 +49,7 @@ app.use(
       authRequired: false,
       auth0Logout: true,
       secret: process.env.secret,
-      baseURL: process.env. baseURL,
+      baseURL: process.env.baseURL,
       clientID: process.env.clientID,
       issuerBaseURL: process.env.issuerBaseURL,
     }),
@@ -61,7 +61,13 @@ app.get('/', function(req, res, next) {
 });
 
 app.get('/map', requiresAuth(), function(req, res, next) {
-  res.render('map', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Map'});
+  user = getUser(req);
+  if (user.email) {
+    axios.get(`${process.env.baseURL}/getlogged?email=${user.email}`)
+        .then(function(response) {
+          res.render('map', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Map', data: JSON.stringify(helpers.toGeoJson(response.data))});
+        });
+  }
 });
 
 app.get('/profile', requiresAuth(), function(req, res, next) {
@@ -81,7 +87,7 @@ app.get('/about', function(req, res, next) {
 
 app.get('/logout', requiresAuth(), function(req, res, next) {
   axios.get('https://' + baseURL + '/v2/logout?' +
-        'client_id=' + clientID + '&returnTo=' + baseUrl);
+        'client_id=' + clientID + '&returnTo=' + baseURL);
   res.render('index', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req)});
 });
 
@@ -94,4 +100,4 @@ app.get('/help', function(req, res, next) {
 // ///create server //////
 app.listen(app.get('port'), function() {
   console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
-});
+

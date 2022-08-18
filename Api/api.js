@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 require('dotenv').config();
+const moment = require('moment');
+const toGeoJson = require('../Scripts/helpers')
 
 // ///api//////
 const db = mysql.createPool({
@@ -39,13 +41,16 @@ router.post('/postBird', function(req, res, next) {
   const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
   db.query('SELECT id FROM birdUsers WHERE email= ?', [req.body.email], function(error, results) {
     if (error) {
-      throw (error);
+      res.status(401).json({error: 'Couldn\'t complete request- problem with user id'});
     } else {
+      if (!results[0]) {
+        return res.status(401).json({error: 'Couldn\'t complete request- problem with user id'});
+      }
       const id =results[0].id;
       db.query('INSERT INTO birdSighting (userID, birdID, coordA, coordB, date) VALUES (?, ?, ?, ?, ?)', [id, req.body.bird,
         req.body.coordA, req.body.coordB, date], function(error, results) {
         if (error) {
-          throw (error);
+          res.status(401).json({error: 'Couldn\'t complete request- issue with birdSighting'});
         }
         res.send(JSON.stringify(results));
       });
@@ -58,17 +63,17 @@ router.post('/deleteEntry', function(req, res, next) {
     if (error) {
       throw (error);
     }
-    res.sendStatus(200);
+    res.send(JSON.stringify(results));
   });
 });
 
-router.post('/getlogged', function(req, res, next) {
-  db.query('SELECT id FROM birdUsers WHERE email= ?', [req.body.email], function(error, results) {
+router.get('/getlogged', function(req, res, next) {
+  db.query('SELECT id FROM birdUsers WHERE email= ?', [req.query.email], function(error, results) {
     if (error) {
       throw (error);
     } else {
       const id =results[0].id;
-      db.query( 'SELECT birdcodes.englishName, defaultdb.birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+      db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
               'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
               'INNER JOIN birdSighting on ' +
               'birdcodes.birdID = birdSighting.birdId ' +
@@ -85,7 +90,7 @@ router.post('/getlogged', function(req, res, next) {
 });
 
 // router.get('/getsearch', function(req, res, next) {
-//   db.query( 'SELECT birdcodes.englishName, defaultdb.birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
+//   db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdId, birdSighting.coordA,' +
 //   'birdSighting.coordB, birdSighting.id FROM birdcodes '+
 //   'INNER JOIN birdSighting on ' +
 //   'birdcodes.birdID = birdSighting.birdId WHERE birdcodes.birdGroup= ?',
