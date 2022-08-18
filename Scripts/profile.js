@@ -37,7 +37,7 @@ function deleteThis(object) {
 }
 
 function getLogged() {
-  fetch(`/getlogged?email=${email}`, {
+  fetch(`/getlogged?email=${email}&userName=${userName}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ function getLogged() {
   })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`Request failed with status ${reponse.status}`);
+          return $('#errorModal').modal('show');
         }
         response.json().then((data) => {
           const table = document.getElementById('birdList');

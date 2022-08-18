@@ -41,6 +41,7 @@ function getUser(req) {
   return {
     user: req.oidc.isAuthenticated() ? req.oidc.user.nickname : false,
     email: req.oidc.isAuthenticated() ? req.oidc.user.email : false,
+    userName: req.oidc.isAuthenticated() ? req.oidc.user.nickname : false,
   };
 }
 

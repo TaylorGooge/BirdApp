@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const request = require('supertest');
 const app = require('../testApp');
 
@@ -7,11 +8,21 @@ describe('POST /getUserId', () => {
         .post('/getUserID')
         .send({
           email: 'taylor@ethelscuriocabinet.com',
+          userName: 'testuser',
         });
     expect(response.statusCode).toBe(200);
   });
 
-  test('get registered user- returns the user id', async () => {
+  test('get unregistered user- should 401 missing username', async () => {
+    const response = await request(app)
+        .post('/getUserID')
+        .send({
+          email: 't@g.com',
+        });
+    expect(response.statusCode).toBe(401);
+  });
+
+  test('get registered user- returns the user info', async () => {
     const response = await request(app)
         .post('/getUserID')
         .send({
@@ -19,7 +30,7 @@ describe('POST /getUserId', () => {
         });
     expect(response.statusCode).toBe(200);
     const property = JSON.parse(response.text);
-    expect(property).toEqual([{'id': 1, 'email': 'taylorgooge@gmail.com'}]);
+    expect(property).toEqual([{'id': 1, 'email': 'taylorgooge@gmail.com', 'userName': 'thebeek'}]);
   });
 });
 
