@@ -14,7 +14,7 @@ describe('Get /searchBird', () => {
     expect(response.statusCode).toBe(200);
     const results = JSON.parse(response.text);
     results.forEach((result) => expect(result).toEqual({
-      birdId: expect.any(Number),
+      birdID: expect.any(Number),
       date: expect.any(String),
       id: expect.any(Number),
       coordA: expect.any(String),
@@ -39,7 +39,7 @@ describe('Get /searchBird', () => {
     expect(response.statusCode).toBe(200);
     const results = JSON.parse(response.text);
     results.forEach((result) => expect(result).toEqual({
-      birdId: expect.any(Number),
+      birdID: expect.any(Number),
       date: expect.any(String),
       id: expect.any(Number),
       coordA: expect.any(String),

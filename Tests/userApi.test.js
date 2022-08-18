@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 const request = require('supertest');
 const app = require('../testApp');
+jest.setTimeout(100000);
 
 describe('POST /getUserId', () => {
   test('get unregistered user- should register the user', async () => {
@@ -13,7 +14,7 @@ describe('POST /getUserId', () => {
     expect(response.statusCode).toBe(200);
   });
 
-  test('get unregistered user- should 401 missing username', async () => {
+  test('POST /getUserId get unregistered user- should 401 missing username', async () => {
     const response = await request(app)
         .post('/getUserID')
         .send({
@@ -22,7 +23,7 @@ describe('POST /getUserId', () => {
     expect(response.statusCode).toBe(401);
   });
 
-  test('get registered user- returns the user info', async () => {
+  test('POST /getUserId get registered user- returns the user info', async () => {
     const response = await request(app)
         .post('/getUserID')
         .send({

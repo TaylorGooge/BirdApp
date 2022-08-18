@@ -78,10 +78,10 @@ router.get('/searchBird/:id?/:group?', function(req, res, next) {
     res.send(JSON.stringify(results));
   }
   if (req.query.id) {
-    db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdUsers.userName, birdSighting.birdId, birdSighting.coordA, ' +
+    db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdUsers.userName, birdSighting.birdID, birdSighting.coordA, ' +
                 'birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes '+
                 'INNER JOIN birdSighting on ' +
-                'birdcodes.birdID = birdSighting.birdId ' +
+                'birdcodes.birdID = birdSighting.birdID ' +
                 'INNER JOIN birdUsers on birdUsers.id = birdSighting.userID ' +
                 'WHERE birdSighting.birdID = ? ', [req.query.id], function(error, results) {
       if (error) {
@@ -109,13 +109,20 @@ router.get('/searchBird/:id?/:group?', function(req, res, next) {
 });
 
 router.get('/getlogged', function(req, res, next) {
+  if (!(req.query.email)) {
+    return res.status(401).json({error: 'Couldn\'t complete request- request missing data'});
+  }
   db.query('SELECT id FROM birdUsers WHERE email= ?', [req.query.email], function(error, results) {
     if (results.length === 0 ) {
-      db.query('INSERT INTO birdUsers (email, userName) VALUES (?, ?)', [req.query.email, req.query.userName], function( err, results2) {
-        if (err) {
-          res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
-        }
-      });
+      if (!req.query.userName) {
+        return res.status(401).json({error: 'Couldn\'t complete request- request missing data'});
+      } else {
+        db.query('INSERT INTO birdUsers (email, userName) VALUES (?, ?)', [req.query.email, req.query.userName], function( err, results2) {
+          if (err) {
+            res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
+          }
+        });
+      }
     } else {
       const id =results[0].id;
       db.query( 'SELECT birdcodes.englishName, birdSighting.date, birdUsers.userName, birdSighting.birdID, birdSighting.coordA, ' +

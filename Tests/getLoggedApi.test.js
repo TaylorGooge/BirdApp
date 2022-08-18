@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../testApp');
+jest.setTimeout(100000);
 
 
 describe('Get /getlogged', () => {
@@ -8,9 +9,14 @@ describe('Get /getlogged', () => {
         .get('/getlogged?email=taylorgooge@gmail.com');
     expect(response.statusCode).toBe(200);
   });
-  test('get unregistered user', async () => {
+  test('get unregistered user fail missing username', async () => {
     const response = await request(app)
         .get('/getlogged?email=t@g.com');
+    expect(response.statusCode).toBe(401);
+  });
+  test('get unregistered user passing', async () => {
+    const response = await request(app)
+        .get('/getlogged?email=tdff@g.com&userName=doot');
     expect(response.statusCode).toBe(200);
   });
 
