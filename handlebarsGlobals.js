@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const globalVars = {};
 
 
@@ -28,18 +29,14 @@ globalVars['headerFooter']= {
   footerContact: [
     {
       fas: '<i class="fa-solid fa-building"></i>',
-      value: '1234 Street City, State, Zip',
+      value: 'Tallahassee, Florida',
     },
     {
       fas: '<i class="fa-solid fa-envelope"></i>',
-      value: 'birdapp@email.com',
+      value: '<a role="button" class="btn btn-secondary" href="mailto:supportBirdApp@proton.me"> Email Us</a>',
     },
   ],
   footerUsefulLinks: [
-    {
-      title: 'eBird',
-      link: 'https://ebird.org/home',
-    },
     {
       title: 'Institute for Bird Populations',
       link: 'https://www.birdpop.org/',

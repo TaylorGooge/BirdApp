@@ -4,3 +4,17 @@
     display: block; 
     text-indent: -9999px;
 }
+
+.navbar-brand {
+    padding-left: 10px;
+}
+
+.navbar-nav, .nav-item, .navbar-toggler{
+    color: white;
+    font-weight: bolder;
+    font-size: larger;
+}
+
+.userAccount{
+    padding-right: 10px;
+}

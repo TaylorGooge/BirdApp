@@ -2,8 +2,8 @@
     <link rel="stylesheet" href="reportBirdStyles.css">   
 {{/extend}}
 {{>modal}}
-<div id = 'reportbird' class= 'container'>
-    <h2>Report bird sighting <button class= 'btn btn-light' data-bs-toggle="modal" data-bs-target="#explainModal">?</button></h2> 
+<div id = 'reportbird' class= 'container-fluid' >
+    <h2>Report bird sighting <button class= 'btn btn-secondary' data-bs-toggle="modal" data-bs-target="#explainModal">?</button></h2> 
     <form>
         <div class = 'form-group'>
              <label for="birdName"> Bird
@@ -13,7 +13,7 @@
             </label>
         </div>
     </form>
-    <button class="btn btn-light sub-Button" id = "submitBird" type="submit" data-bs-toggle="modal" data-bs-target="#successModal">Submit</button>
+    <button class="btn btn-secondary sub-Button" id = "submitBird" type="submit" data-bs-toggle="modal" data-bs-target="#successModal">Submit</button>
     <p>Is the bird you saw not listed? 
         <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reportBirdModal">Click here</button>
     </p>
