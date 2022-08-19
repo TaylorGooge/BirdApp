@@ -120,6 +120,8 @@ router.get('/getlogged', function(req, res, next) {
         db.query('INSERT INTO birdUsers (email, userName) VALUES (?, ?)', [req.query.email, req.query.userName], function( err, results2) {
           if (err) {
             res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
+          } else {
+            res.status(200).json();
           }
         });
       }
