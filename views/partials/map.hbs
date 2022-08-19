@@ -38,7 +38,13 @@
 
         map.data.addListener('click', function(event) {
             const feat = event.feature;
-            const html = '<b>' + feat.getProperty('englishName')+ '</b>';
+            const html = `<div class="card" style="width: 18rem;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"> <bold>Species: </bold>${feat.getProperty('englishName')}</li>
+                                <li class="list-group-item"><bold>Date: </bold>${feat.getProperty('date').slice(0,10)}</li>
+                                <li class="list-group-item"><bold>Logged By: </bold>${feat.getProperty('userName')}</li>
+                            </ul>
+                        </div>`
             infoWindow.setContent(html);
             infoWindow.setPosition(event.latLng);
             infoWindow.setOptions({pixelOffset: new google.maps.Size(0, -34)});
