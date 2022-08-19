@@ -44,7 +44,8 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
-    ]
+    ],
+    "globalSetup": "./Tests/databaseSetup.js"
   },
   "homepage": "https://github.com/TaylorGooge/BirdApp#readme",
   "description": ""
