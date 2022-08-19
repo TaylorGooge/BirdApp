@@ -114,17 +114,14 @@ router.get('/getlogged', function(req, res, next) {
   }
   db.query('SELECT id FROM birdUsers WHERE email= ?', [req.query.email], function(error, results) {
     if (results.length === 0 ) {
-      db.query('INSERT INTO birdUsers (email, userName) VALUES (?, ?)', [req.query.email, req.query.userName], function( err, results2) {
-        if (err) {
-          res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
-        }
-      });
       if (!req.query.userName) {
         return res.status(401).json({error: 'Couldn\'t complete request- request missing data'});
       } else {
         db.query('INSERT INTO birdUsers (email, userName) VALUES (?, ?)', [req.query.email, req.query.userName], function( err, results2) {
           if (err) {
             res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
+          } else {
+            res.status(200).json();
           }
         });
       }

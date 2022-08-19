@@ -3,14 +3,13 @@ const app = require('../testApp');
 
 jest.setTimeout(100000);
 
-
-
 describe('Get /getlogged', () => {
   test('get valid user', async () => {
     const response = await request(app)
         .get('/getlogged?email=taylorgooge@gmail.com');
     expect(response.statusCode).toBe(200);
   });
+
   test('get unregistered user fail missing username', async () => {
     const response = await request(app)
         .get('/getlogged?email=t@g.com');
