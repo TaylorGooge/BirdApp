@@ -6,7 +6,7 @@
 <div class="container mt-4 mb-4 p-3 d-flex justify-content-center" id= 'profile'>
     <div class="card p-4">
         <div class=" image d-flex flex-column justify-content-center align-items-center"> 
-            <img class ='profileDetails' {{#if userMap.profilePic}} src="{{userMap.profilePic}}" {{else}} src="profileFallback.png" {{/if}} height="100" width="100" alt="Profile"/> 
+            <img class ='profileDetails' src="{{userMap.profilePic}}" onerror="if(this.src != "{{userMap.profilePic}}" this.src = "profileFallback.png" )" height="100" width="100" alt="Profile"/> 
             <span class="name mt-3 profileDetails"> <b>Name:</b>{{userMap.firstName}} {{userMap.lastName}}</span> 
             <span class="idd profileDetails"> <b>Username:</b> {{userMap.userName}}</span>
             <span class="profileDetails"> <b>Email:</b> {{userMap.email}}</span>     
