@@ -53,7 +53,7 @@ function getLogged() {
           const range = 3;
           // eslint-disable-next-line guard-for-in
           for ( const property in data) {
-            const delButton = '<button class=\'btn btn-light\' onclick= \'deleteThis(this.parentNode.parentNode)\'>Delete</button>';
+            const delButton = '<button class=\'btn btn-secondary\' onclick= \'deleteThis(this.parentNode.parentNode)\'>Delete</button>';
             const attributeVal = [`${data[property].englishName}`, convertDate(data[property].date), delButton];
             const row = document.createElement('tr');
             // eslint-disable-next-line max-len

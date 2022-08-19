@@ -7,7 +7,7 @@
     var geoData = {{{data}}};
 </script>
 
-<div id="map" style="clear:both; height:500px ;" class= 'container'>
+<div id="map" style="height:500px ;" class= 'd-flex justify-content-center'>
    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9nbhtbGeolVY2g-PckOOSnfe3Fabea0w&v=weekly&channel=2"></script>
 </div>
 
@@ -38,7 +38,13 @@
 
         map.data.addListener('click', function(event) {
             const feat = event.feature;
-            const html = '<b>' + feat.getProperty('englishName')+ '</b>';
+            const html = `<div class="card" style="width: 18rem;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"> <bold>Species: </bold>${feat.getProperty('englishName')}</li>
+                                <li class="list-group-item"><bold>Date: </bold>${feat.getProperty('date').slice(0,10)}</li>
+                                <li class="list-group-item"><bold>Logged By: </bold>${feat.getProperty('userName')}</li>
+                            </ul>
+                        </div>`
             infoWindow.setContent(html);
             infoWindow.setPosition(event.latLng);
             infoWindow.setOptions({pixelOffset: new google.maps.Size(0, -34)});
