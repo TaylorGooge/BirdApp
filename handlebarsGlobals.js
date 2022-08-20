@@ -70,18 +70,20 @@ globalVars['accordion'] = [
             'contains six-letter codes based on the scientific names.</p>' +
             '<p class="faqText" >Source: <a href= "https://www.birdpop.org/pages/birdSpeciesCodes.php"> Institute for Bird Populations</a></p>',
   },
-  // {
-  //     id: 'faq-2_id',
-  //     data_bs_target: 'faq-2_target',
-  //     heading: 'Question 2',
-  //     body: 'This is the answer to the question'
-  // },
-  // {
-  //     id: 'faq-3_id',
-  //     data_bs_target: 'faq-3_target',
-  //     heading: 'Question 3',
-  //     body: 'This is the answer to the question'
-  // },
+  {
+    id: 'faq-2_id',
+    data_bs_target: 'faq-2_target',
+    heading: 'The map isn\'t working',
+    body: '<p> Bird App needs to be able to access your current location.' +
+          ' If your browser asks you grant BirdApp permission to use your current location be sure to accept this request.' +
+          ' If the map is still not working check your location settings on your browswer or phone.',
+  },
+  {
+    id: 'faq-3_id',
+    data_bs_target: 'faq-3_target',
+    heading: 'I\'m logged in but get a "bad request" error when I try to access the map or my profile',
+    body: 'Click this <a href = "https://birdappdev.herokuapp.com/logout">link </a> and then log in again.',
+  },
   // {
   //     id: 'faq-4_id',
   //     data_bs_target: 'faq-4_target',
