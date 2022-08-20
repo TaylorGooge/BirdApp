@@ -74,8 +74,8 @@ globalVars['accordion'] = [
     id: 'faq-2_id',
     data_bs_target: 'faq-2_target',
     heading: 'The map isn\'t working',
-    body: '<p> Bird App needs to be able to access your current location.' +
-          ' If your browser asks you grant BirdApp permission to use your current location be sure to accept this request.' +
+    body: '<p> Birdr needs to be able to access your current location.' +
+          ' If your browser asks you grant Birdr permission to use your current location be sure to accept this request.' +
           ' If the map is still not working check your location settings on your browser or phone.',
   },
   {
