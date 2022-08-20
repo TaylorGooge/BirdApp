@@ -108,6 +108,16 @@ router.get('/searchBird/:id?/:group?', function(req, res, next) {
   ;
 });
 
+router.get('/getgroups', function(req, res, next) {
+  db.query('SELECT * FROM bird_categories', function(error, results) {
+    if (error) {
+      return res.status(401).json({error: 'Couldn\'t complete request'});
+    } else {
+      res.send(JSON.stringify(results));
+    }
+  });
+});
+
 router.get('/getlogged', function(req, res, next) {
   if (!(req.query.email)) {
     return res.status(401).json({error: 'Couldn\'t complete request- request missing data'});

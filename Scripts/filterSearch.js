@@ -1,8 +1,33 @@
 /* eslint-disable max-len */
-
 $(document).ready(function() {
+  fetch('/getgroups', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+      .then((response) => {
+        if (!response.ok) {
+          return $('#errorModal').modal('show');
+        }
+        response.json().then((data) => {
+          if (data.length > 0 ) {
+            const select = document.getElementById('functionalGroup');
+            // eslint-disable-next-line guard-for-in
+            for ( const property in data) {
+              const opt = document.createElement('option');
+              opt.value = `${data[property].id}`;
+              opt.innerText = `${data[property].name}`;
+              select.appendChild(opt);
+            }
+          }
+        });
+      });
+
+
   $('.search-select-basic-single').select2();
 });
+
 window.addEventListener('load', () => {
   // eslint-disable-next-line max-len
   document.getElementById('search-submitBird').addEventListener('click', function(e) {
