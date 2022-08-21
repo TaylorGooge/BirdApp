@@ -51,7 +51,7 @@ app.use(
       auth0Logout: true,
       session: {
         cookie: {
-          domain: 'floating-peak-20983.herokuapp.com/',
+          domain: 'birdappdev.herokuapp.com',
         },
       },
       secret: process.env.secret,
