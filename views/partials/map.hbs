@@ -23,8 +23,14 @@
         map.data.setStyle({
             strokeColor: 'blue'});
         //set current position
+        var im = 'locationmarker.png'
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
+                  var userMarker = new google.maps.Marker({
+                    position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                    map: map,
+                    icon: im
+                });
                 initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.setCenter(initialLocation);
             });
@@ -80,6 +86,12 @@
     function updateLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
+                var im = 'locationmarker.png'
+                var userMarker = new google.maps.Marker({
+                    position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                    map: map,
+                    icon: im
+                });
                 initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.setCenter(initialLocation);
             });
