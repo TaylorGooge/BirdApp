@@ -49,11 +49,6 @@ app.use(
     auth({
       authRequired: false,
       auth0Logout: true,
-      session: {
-        cookie: {
-          domain: 'birdappdev.herokuapp.com',
-        },
-      },
       secret: process.env.secret,
       baseURL: process.env.baseURL,
       clientID: process.env.clientID,
@@ -89,12 +84,6 @@ app.get('/profile', requiresAuth(), function(req, res, next) {
 
 app.get('/about', function(req, res, next) {
   res.render('about', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req)});
-});
-
-app.get('/logout', requiresAuth(), function(req, res, next) {
-  axios.get('https://' + baseURL + '/v2/logout?' +
-        'client_id=' + clientID + '&returnTo=' + baseURL);
-  res.render('index', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req)});
 });
 
 app.get('/help', function(req, res, next) {
