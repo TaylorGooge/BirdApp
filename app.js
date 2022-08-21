@@ -49,6 +49,11 @@ app.use(
     auth({
       authRequired: false,
       auth0Logout: true,
+      session: {
+        cookie: {
+          domain: 'floating-peak-20983.herokuapp.com/',
+        },
+      },
       secret: process.env.secret,
       baseURL: process.env.baseURL,
       clientID: process.env.clientID,

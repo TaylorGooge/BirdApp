@@ -13,6 +13,8 @@
 
 
 <script>
+    let markers = [];
+    const im = 'locationmarker.png'
     function initMap(geoData) {
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 41.850033, lng: -87.6500523},
@@ -23,8 +25,10 @@
         map.data.setStyle({
             strokeColor: 'blue'});
         //set current position
+        
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
+                addMarker(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
                 initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.setCenter(initialLocation);
             });
@@ -77,9 +81,37 @@
         });
     }; 
     initMap(geoData);
+
+    function setMapOnAll(map) {
+        for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+
+    function hideMarkers() {
+        setMapOnAll(null);
+    }
+
+    function deleteMarkers() {
+        hideMarkers();
+        markers = [];
+    }
+
+    function addMarker(position) {
+        var im = 'locationmarker.png'
+        const marker = new google.maps.Marker({
+            position,
+            map,
+            icon: im,
+        });
+
+        markers.push(marker);
+    }
     function updateLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
+                deleteMarkers();
+                addMarker(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
                 initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.setCenter(initialLocation);
             });
