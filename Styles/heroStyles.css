@@ -1,6 +1,6 @@
 .jumbotron {
   color: white;
-  background: url('heroImage.jpeg');
+  background: url('https://birdr-app.s3.amazonaws.com/public/heroImage.jpeg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
