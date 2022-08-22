@@ -13,9 +13,14 @@
 
 
 <script>
+
     let markers = [];
+    let lastLoc = null
     let windowOpen = false;
+    let showCenter = true
+
     const im = 'locationmarker.png'
+
     function initMap(geoData) {
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 41.850033, lng: -87.6500523},
@@ -25,15 +30,10 @@
         map.data.addGeoJson(geoData);
         map.data.setStyle({
             strokeColor: 'blue'});
+
         //set current position
-        
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                addMarker(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-                initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                map.setCenter(initialLocation);
-            });
-        }
+        Locate()
+
         //info windows
         const infoWindow = new google.maps.InfoWindow();
         const locationButton = document.createElement('button');
@@ -56,6 +56,11 @@
             infoWindow.open(map);
             windowOpen = true;
         });
+
+        map.addListener('dragend', ()=>{
+            showCenter= false
+        })
+        
         infoWindow.addListener('closeclick', ()=>{
             infoWindow.close(map);
             windowOpen = false
@@ -63,27 +68,8 @@
 
         // pan to location button
         locationButton.addEventListener('click', () => {
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                        };
-                        infoWindow.setPosition(pos);
-                        infoWindow.setContent('Location found.');
-                        infoWindow.open(map);
-                        map.setCenter(pos);
-                    },
-                    () => {
-                        handleLocationError(true, infoWindow, map.getCenter());
-                    },
-                );
-            } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-            }
+            showCenter= true
+            Locate();
         });
     }; 
     initMap(geoData);
@@ -110,20 +96,21 @@
             map,
             icon: im,
         });
-
         markers.push(marker);
     }
-    function updateLocation() {
-        if(!windowOpen){
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    deleteMarkers();
-                    addMarker(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-                    initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                    map.setCenter(initialLocation);
-                });
-            }
+
+     function Locate(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                deleteMarkers();
+                let currLoc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+                addMarker(currLoc);
+                if (!windowOpen && showCenter){
+                    map.setCenter(currLoc)
+                } 
+                lastLoc = currLoc
+            });
         }
     }
-    setInterval(updateLocation, 10000);
+    setInterval(Locate, 10000);
 </script>
