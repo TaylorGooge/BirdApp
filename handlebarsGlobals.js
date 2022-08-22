@@ -82,7 +82,7 @@ globalVars['accordion'] = [
     id: 'faq-3_id',
     data_bs_target: 'faq-3_target',
     heading: 'I\'m logged in but get a "bad request" error when I try to access the map or my profile',
-    body: 'Click this <a href = "https://birdr-app.herokuapp.com//logout">link </a> and then log in again.',
+    body: 'Click this <a href = "https://birdr-app.herokuapp.com/logout">link </a> and then log in again.',
   },
   // {
   //     id: 'faq-4_id',
