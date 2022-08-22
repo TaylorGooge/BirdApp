@@ -14,6 +14,7 @@
 
 <script>
     let markers = [];
+    let windowOpen = false;
     const im = 'locationmarker.png'
     function initMap(geoData) {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -53,6 +54,11 @@
             infoWindow.setPosition(event.latLng);
             infoWindow.setOptions({pixelOffset: new google.maps.Size(0, -34)});
             infoWindow.open(map);
+            windowOpen = true;
+        });
+        infoWindow.addListener('closeclick', ()=>{
+            infoWindow.close(map);
+            windowOpen = false
         });
 
         // pan to location button
@@ -108,14 +114,16 @@
         markers.push(marker);
     }
     function updateLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                deleteMarkers();
-                addMarker(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-                initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                map.setCenter(initialLocation);
-            });
+        if(!windowOpen){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    deleteMarkers();
+                    addMarker(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+                    initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    map.setCenter(initialLocation);
+                });
+            }
         }
     }
-    setInterval(updateLocation, 5000);
+    setInterval(updateLocation, 10000);
 </script>
