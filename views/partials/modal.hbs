@@ -14,30 +14,31 @@
       <div class="modal-body">
         <h3>Think we're missing something?</h3>
         <p> If you think we should add a bird to our database provide the bird's information below. </p>
-         <form  action="https://formspree.io/f/mleazwnd" method="POST">
+         <form  action="https://formspree.io/f/mleazwnd" method="POST" class="needs-validation" novalidate>
           <div class = 'form-group'>
             <label for="newBirdName">Species
-              <input type="text" class="form-control" id="newBirdName" aria-describedby="newBirdNameExp" placeholder="English Name">
-            </label>
-          </div>
-          <div class = 'form-group'>
-            <a href="/help" class="link-secondary" target="_blank" rel="noopener noreferrer" >What are these letter codes?</a>
-             
-         
-          </div>
-          <div class = 'form-group'>
-            <label for="4LetterCode">4 Letter Code
-              <input type="text" class="form-control" id="4LetterCode" aria-describedby="codeExp" placeholder="4 Letter Code OR 6 Letter Code">
-            </label>
-              <label for="6LetterCode">6 Letter Code
-              <input type="text" class="form-control" id="6LetterCode" aria-describedby="codeExp" placeholder="4 Letter Code OR 6 Letter Code">
+              <input type="text" class="form-control" name ="newBirdName" id="newBirdName" aria-describedby="newBirdNameExp" placeholder="English Name" required>
+              <div class="invalid-feedback">Please enter english name</div>
             </label>
           </div>
             <div class = 'form-group'>
               <label for="scientificName">Scientific Name
-                <input type="text" class="form-control" id="scientificName" aria-describedby="scientificNameExp" placeholder="Scientific Name">
+                <input type="text" class="form-control" id="scientificName"  name ="scientificName" aria-describedby="scientificNameExp" placeholder="Scientific Name" required>
+                 <div class="invalid-feedback">Please enter scientific name</div>
               </label>
+          </div>
+          <div class = 'form-group'>
+            <div class = 'form-group'>
+              <a href="/help" class="link-secondary" target="_blank" rel="noopener noreferrer" >What are these letter codes?</a>
             </div>
+            <label for="4LetterCode">4 Letter Code
+              <input type="text" class="form-control" name ="4LetterCode" id="4LetterCode" aria-describedby="codeExp">
+            </label>
+              <label for="6LetterCode">6 Letter Code
+              <input type="text" class="form-control" name = "6LetterCode" id="6LetterCode" aria-describedby="codeExp">
+            </label>
+          </div>
+
             <div class = 'form-group'>
                  <button type="submit" class="btn btn-primary">Submit</button>
             </div>
@@ -145,5 +146,25 @@
     </div>
   </div>
 </div>
-
+<script>
+        // Self-executing function
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 
