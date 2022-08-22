@@ -17,6 +17,8 @@
     let markers = [];
     let lastLoc = null
     let windowOpen = false;
+    let showCenter = true
+
     const im = 'locationmarker.png'
 
     function initMap(geoData) {
@@ -54,6 +56,10 @@
             infoWindow.open(map);
             windowOpen = true;
         });
+
+        map.addListener('dragend', ()=>{
+            showCenter= false
+        })
         
         infoWindow.addListener('closeclick', ()=>{
             infoWindow.close(map);
@@ -62,7 +68,8 @@
 
         // pan to location button
         locationButton.addEventListener('click', () => {
-            Locate(true, true);
+            showCenter= true
+            Locate();
         });
     }; 
     initMap(geoData);
@@ -92,31 +99,18 @@
         markers.push(marker);
     }
 
-     function Locate(setCenter= true, override = false){
-        /**
-        * handles moving the current location marker and whether to force the map
-        * to center on current location
-        * @param  {bool} setCenter set true to force map to center on user's current location
-        * @return {bool}  override  set true when user presses 'pan to location'
-        */
+     function Locate(){
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 deleteMarkers();
                 let currLoc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
                 addMarker(currLoc);
-                if (!override){
-                    if (lastLoc !== null && lastLoc !== currLoc ) {
-                    setCenter = false;
-                    }
-                    if (setCenter && !windowOpen){
+                if (!windowOpen && showCenter){
                     map.setCenter(currLoc)
-                    }
-                } else {
-                    map.setCenter(currLoc)
-                }
+                } 
                 lastLoc = currLoc
             });
         }
     }
-    setInterval(Locate, 30000);
+    setInterval(Locate, 10000);
 </script>
