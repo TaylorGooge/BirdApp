@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
 window.addEventListener('load', () => {
@@ -48,24 +49,76 @@ function getLogged() {
           return $('#errorModal').modal('show');
         }
         response.json().then((data) => {
-          const table = document.getElementById('birdList');
-          table.innerHTML = '';
-          const range = 3;
-          // eslint-disable-next-line guard-for-in
-          for ( const property in data) {
-            const delButton = '<button class=\'btn btn-secondary\' onclick= \'deleteThis(this.parentNode.parentNode)\'>Delete</button>';
-            const attributeVal = [`${data[property].englishName}`, convertDate(data[property].date), delButton];
-            const row = document.createElement('tr');
-            // eslint-disable-next-line max-len
-            row.setAttribute('id', `${data[property].id} ${data[property].userID} ${data[property].birdId}`);
-            for (let i=0; i< range; i ++) {
-              const col = document.createElement('td');
-              col.innerHTML = attributeVal[i];
-              row.appendChild(col);
+          let table = $('#profile-table').DataTable( {
+            data: data,
+            rowId: 'id',
+            columns: [
+              {data: 'id'},
+              {data: 'userID'},
+              {data: 'birdID'},
+              {data: 'englishName'},
+              {data: 'date'},
+            ],
+            columnDefs: [
+              {
+                  target: 0,
+                  visible: false,
+                  searchable: false,
+              },
+              {
+                target: 1,
+                visible: false,
+                searchable: false,
+              },
+              {
+                target: 2,
+                visible: false,
+                searchable: false,
+              },
+              {
+                target: 4,
+                render:  function(data) {return moment(data, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY ')}
+              }
+            ],
+          } );
+          $('#profile-table tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+                delNode = null
+            } else {
+                table.$('tr.selected').removeClass('selected');
+                delNode = (this.id)
+                console.log(delNode)
+                $(this).addClass('selected');
             }
-            table.appendChild(row);
-          }
+          });
+        $('#button').click(function () {
+          deleteThis(delNode);
+          table.row('.selected').remove().draw(false);
         });
+        });
+      });
+}
+let delNode = null
+
+function deleteThis(id) {
+  console.log(`delnode is  ${delNode}`)
+  console.log(`deleting ${id}`)
+  fetch('/deleteEntry', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id,
+    }),
+  })
+      .then((response) => {
+        if (response.status != 200) {
+          return $('#errorModal').modal('show');
+        }
+        delNode = null;
+        console.log(`delnode is  ${delNode}`)
       });
 }
 

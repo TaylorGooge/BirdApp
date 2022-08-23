@@ -143,8 +143,7 @@ router.get('/getlogged', function(req, res, next) {
               'birdcodes.birdID = birdSighting.birdID ' +
               'INNER JOIN birdUsers on birdUsers.id = birdSighting.userID ' +
               'WHERE birdSighting.userID = ? ' +
-              'ORDER BY  birdSighting.date desc '+
-              'LIMIT 5', [id], function(error, results) {
+              'ORDER BY  birdSighting.date desc ', [id], function(error, results) {
         if (error) {
           throw (error);
         }
