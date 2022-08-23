@@ -1,0 +1,29 @@
+{{#extend "stylesheets"}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="slider.css">
+{{/extend}}
+
+
+<div class="container-fluid" id="slidecontainer">
+    <div class="d-flex flex-row justify-content-center align-items-center">
+      <h4>Refine Results</h4>
+      <div class="p-5">
+          <input id="refineResults" type="text" class="slider"
+            data-provide="slider"
+            data-slider-ticks="[1, 2, 3, 4, 5]"
+            data-slider-ticks-labels='["Week", "Month", "Season", "Year", "All Time"]'
+            data-slider-min="1"
+            data-slider-max="5"
+            data-slider-step="1"
+            data-slider-value="5"
+            data-slider-tooltip="hide" 
+            onchange="showVal(this.value)"
+          />
+      </div>
+    </div>
+</div>
+  
+{{#extend "scripts"}}
+    <script src = "slider.js" > </script>
+{{/extend}}
+
