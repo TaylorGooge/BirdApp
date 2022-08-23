@@ -96,14 +96,14 @@ function clearMap() {
   });
 }
 
-function setMap() {
-  map.data.addGeoJson(refinedResults);
+function setMap(results) {
+  map.data.addGeoJson(results);
 }
 
 function setFeatures(feat) {
   refinedResults.features = feat;
   clearMap();
-  setMap();
+  setMap(refinedResults);
 }
 
 function filter(start, end ) {
@@ -122,6 +122,10 @@ function getDates(int) {
   const now = getDate().toISOString();
   const week = new Date(getDate().getFullYear(), getDate().getMonth(), getDate().getDate() - int).toISOString();
   return filter(week, now);
+}
+
+function resetSliderVal() {
+  $('#refineResults').slider('refresh');
 }
 
 
