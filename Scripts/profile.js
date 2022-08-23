@@ -5,18 +5,6 @@ window.addEventListener('load', () => {
   getLogged();
 });
 
-function convertDate(date) {
-  // sqlDate in SQL DATETIME format ("yyyy-mm-dd hh:mm:ss.ms")
-  const sqlDateArr1 = date.split('-');
-  // format of sqlDateArr1[] = ['yyyy','mm','dd hh:mm:ms']
-  const sYear = sqlDateArr1[0];
-  const sMonth = (Number(sqlDateArr1[1]) - 1).toString();
-  const sqlDateArr2 = sqlDateArr1[2].split('T');
-  // format of sqlDateArr2[] = ['dd', 'hh:mm:ss.ms']
-  const sDay = sqlDateArr2[0];
-  return new Date(sYear, sMonth, sDay);
-}
-
 function deleteThis(object) {
   let id = object.id;
   id = id.split(' ');
@@ -88,7 +76,6 @@ function getLogged() {
             } else {
                 table.$('tr.selected').removeClass('selected');
                 delNode = (this.id)
-                console.log(delNode)
                 $(this).addClass('selected');
             }
           });
@@ -102,8 +89,6 @@ function getLogged() {
 let delNode = null
 
 function deleteThis(id) {
-  console.log(`delnode is  ${delNode}`)
-  console.log(`deleting ${id}`)
   fetch('/deleteEntry', {
     method: 'POST',
     headers: {
@@ -118,7 +103,7 @@ function deleteThis(id) {
           return $('#errorModal').modal('show');
         }
         delNode = null;
-        console.log(`delnode is  ${delNode}`)
+        return $('#deleteBirdModal').modal('show');
       });
 }
 
