@@ -62,9 +62,15 @@ function searchBird() {
           if (data.length == 0 ) {
             return $('#searchNoResults').modal('show');
           }
-          const geoData = toGeoJson(data);
+          const geoData2 = toGeoJson(data);
+          // clear map and form
+          clearMap();
           $('#searchForm').get(0).reset();
-          initMap(geoData);
+          // set new map markers
+          setMap(geoData2);
+          geoData = geoData2;
+          // reset slider
+          resetSliderVal();
         });
       });
 }
