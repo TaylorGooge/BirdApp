@@ -153,4 +153,57 @@ router.get('/getlogged', function(req, res, next) {
   });
 });
 
+router.get('/top10species', function(req, res, next) {
+  db.query(
+      `SELECT
+          COUNT(*) as 'Count',
+          defaultdb.birdcodes.englishName,
+          defaultdb.birdcodes.scientificName,
+          defaultdb.birdcodes.fourCode,
+          defaultdb.birdcodes.sixCode
+          FROM defaultdb.birdSighting
+          INNER JOIN defaultdb.birdcodes ON birdSighting.birdID = birdcodes.birdID
+          GROUP BY birdSighting.birdID
+          ORDER BY COUNT(*) DESC
+          LIMIT 10;`,
+      function(error, results) {
+        if (error) {
+          res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
+        } else {
+          const obj = [['English Name', 'Count']];
+          for (let i = 0; i < results.length; i++) {
+            let temp = [results[i].englishName, results[i].Count];
+            obj.push(temp);
+          }
+          res.send(obj);
+        }
+      });
+});
+
+router.get('/top10group', function(req, res, next) {
+  db.query(
+      `SELECT
+      COUNT(*) as 'Count',
+      defaultdb.bird_categories.name
+      FROM defaultdb.birdSighting
+      INNER JOIN defaultdb.birdcodes ON birdSighting.birdID = birdcodes.birdID
+      INNER JOIN defaultdb.bird_categories on birdcodes.birdGroup = defaultdb.bird_categories.id
+      GROUP BY birdSighting.birdID
+      ORDER BY COUNT(*) DESC
+      LIMIT 10;
+      `,
+      function(error, results) {
+        if (error) {
+          res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
+        } else {
+          const obj = [['English Name', 'Count']];
+          for (let i = 0; i < results.length; i++) {
+            let temp = [results[i].name, results[i].Count];
+            obj.push(temp);
+          }
+          res.send(obj);
+        }
+      });
+});
+
 module.exports = router;

@@ -71,6 +71,26 @@ app.get('/map', requiresAuth(), function(req, res, next) {
   }
 });
 
+app.get('/support', function(req, res, next) {
+  user = getUser(req);
+  if (user.email) {
+    axios.get(`${process.env.baseURL}/getlogged?email=${user.email}&userName=${getUser(req).userName}`)
+        .then(function(response) {
+          res.render('help', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Map', data: JSON.stringify(helpers.toGeoJson(response.data))});
+        });
+  }
+});
+
+app.get('/reports', function(req, res, next) {
+  user = getUser(req);
+  if (user.email) {
+    axios.get(`${process.env.baseURL}/getlogged?email=${user.email}&userName=${getUser(req).userName}`)
+        .then(function(response) {
+          res.render('report', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Map', data: JSON.stringify(helpers.toGeoJson(response.data))});
+        });
+  }
+});
+
 app.get('/profile', requiresAuth(), function(req, res, next) {
   const userMap = {
     email: req.oidc.user.email,
