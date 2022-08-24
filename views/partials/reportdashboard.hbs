@@ -1,0 +1,81 @@
+<!-- Design inspired from https://www.hotjar.com/ -->
+<div class="jumbotron">
+    <div class="container text-center text-lg-left">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="display-4">Birdr<span class="highlight-word">Data Dashboard</span></h1>
+                <p class="lead">Here you'll find visualizations based on data collected from Birdr.</p>
+                <span class="text-center d-inline-block">
+                    <p class="lead">Want to help improve our data?.</p>
+                    <a class="btn btn-primary btn-lg w-100" href="/map" role="button">Get Started with Birdr</a>
+                </span>
+            </div>
+        <div class="col-lg-4 align-items-center d-flex">
+        <img src="https://birdr-app.s3.amazonaws.com/public/birdlogo.png" alt="logo" class="img-fluid">
+      </div>
+        </div>
+    </div>
+</div>
+<hr class="my-4">
+<div class="container-fluid">
+    <div class="d-flex justify-content-center" id="top10species"></div>
+    <div class="d-flex justify-content-center" id="top10group"></div>
+</div>
+<hr class="my-4">
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+    
+    // Load the Visualization API and the piechart package.
+    google.charts.load('current', {'packages':['corechart']});
+      
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+      
+    function drawChart() {
+        var jsonData = $.ajax({
+            url: "/top10species",
+            dataType: "json",
+            async: false
+        }).responseText;
+
+        var options = {
+            'title':'Top 10 Frequently Sighted Birds- By English Name',
+            'width': 1600, 
+            'height': 1200,
+            'pieSliceText': 'value',
+        };
+
+        var jsonData1 = $.ajax({
+        url: "/top10group",
+        dataType: "json",
+        async: false
+        }).responseText;
+
+        var options1 = {
+            'title':'Top 10 Frequently Sighted Birds- By Functional Group',
+            'width': 1600, 
+            'height': 1200,
+            'pieSliceText': 'value',
+        };
+          
+          
+    // Create our data table out of JSON data loaded from server.
+    var data = google.visualization.arrayToDataTable(JSON.parse(jsonData));
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('top10species'));
+    chart.draw(data, options);
+
+    // Create our data table out of JSON data loaded from server.
+      var data1 = google.visualization.arrayToDataTable(JSON.parse(jsonData1));
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart1 = new google.visualization.PieChart(document.getElementById('top10group'));
+    chart1.draw(data1, options1);
+    }
+
+</script>

@@ -25,6 +25,12 @@ globalVars['headerFooter']= {
       link: '/profile',
 
     },
+    {
+      title: 'Data Dashboard',
+      current: false,
+      link: '/reports',
+
+    },
   ],
   footerContact: [
     {
@@ -53,6 +59,10 @@ globalVars['headerFooter']= {
     },
     {
       title: 'Help',
+      link: '/help',
+    },
+    {
+      title: 'Support',
       link: '/help',
     },
   ],
