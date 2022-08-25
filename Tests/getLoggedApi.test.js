@@ -1,8 +1,6 @@
 const request = require('supertest');
 const app = require('../testApp');
 
-jest.setTimeout(100000);
-
 describe('Get /getlogged', () => {
   test('get valid user', async () => {
     const response = await request(app)

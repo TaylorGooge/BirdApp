@@ -22,7 +22,8 @@ handlebars = extend(handlebars);
 require('dotenv').config();
 
 // ///api //////
-const api = require('./Api/api');
+const api = require('./Api/restApi');
+const chartApi = require('./Api/chartApi');
 
 // ///paths//////
 app.use(express.static(path.join(__dirname + '/Styles')));
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname + '/Images')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/', api);
+app.use('/', chartApi);
 
 app.set('trust proxy', true);
 
