@@ -1,3 +1,7 @@
+{{#extend "scripts"}}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+{{/extend}}
 <!-- Design inspired from https://www.hotjar.com/ -->
 <div class="jumbotron">
     <div class="container text-center text-lg-left">
@@ -22,10 +26,6 @@
     <div class="d-flex justify-content-center" id="top10group"></div>
 </div>
 <hr class="my-4">
-
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <script type="text/javascript">
     
@@ -62,20 +62,14 @@
             'pieSliceText': 'value',
         };
           
-          
-    // Create our data table out of JSON data loaded from server.
+    //table 1
     var data = google.visualization.arrayToDataTable(JSON.parse(jsonData));
-
-    // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.PieChart(document.getElementById('top10species'));
     chart.draw(data, options);
 
-    // Create our data table out of JSON data loaded from server.
-      var data1 = google.visualization.arrayToDataTable(JSON.parse(jsonData1));
-
-    // Instantiate and draw our chart, passing in some options.
+    //table 2
+    var data1 = google.visualization.arrayToDataTable(JSON.parse(jsonData1));
     var chart1 = new google.visualization.PieChart(document.getElementById('top10group'));
     chart1.draw(data1, options1);
     }
-
 </script>
