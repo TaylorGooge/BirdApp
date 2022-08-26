@@ -18,15 +18,20 @@
 </div>
 <hr class="my-4">
 <div class="container-fluid">
+     <h2>Top 10 Frequently Sighted Birds- By English Name</h2>
     <div class="d-flex justify-content-center" id="top10species"></div>
+    <hr class="my-4">
+     <h2>Top 10 Frequently Sighted Birds- By Functional Group</h2>
     <div class="d-flex justify-content-center" id="top10group"></div>
 </div>
 <hr class="my-4">
+<div class="container-fluid">
+    <h2>Where are people using Birdr?</h2>
+    <div class="d-flex justify-content-center" id="overallMap"></div>
+</div>
 
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
 <script type="text/javascript">
     
     // Load the Visualization API and the piechart package.
@@ -43,7 +48,6 @@
         }).responseText;
 
         var options = {
-            'title':'Top 10 Frequently Sighted Birds- By English Name',
             'width':'auto',
             'height':'auto',
             'pieSliceText': 'value',
@@ -56,26 +60,45 @@
         }).responseText;
 
         var options1 = {
-            'title':'Top 10 Frequently Sighted Birds- By Functional Group',
-            'width':'1600, auto', 
+            'width':'auto', 
             'height':'auto',
             'pieSliceText': 'value',
         };
           
-          
-    // Create our data table out of JSON data loaded from server.
+    //table 1
     var data = google.visualization.arrayToDataTable(JSON.parse(jsonData));
-
-    // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.PieChart(document.getElementById('top10species'));
     chart.draw(data, options);
 
-    // Create our data table out of JSON data loaded from server.
-      var data1 = google.visualization.arrayToDataTable(JSON.parse(jsonData1));
-
-    // Instantiate and draw our chart, passing in some options.
+    //table 2
+    var data1 = google.visualization.arrayToDataTable(JSON.parse(jsonData1));
     var chart1 = new google.visualization.PieChart(document.getElementById('top10group'));
     chart1.draw(data1, options1);
     }
 
+    google.charts.load('current', {
+        'packages': ['map'],
+        'mapsApiKey': 'AIzaSyC9nbhtbGeolVY2g-PckOOSnfe3Fabea0w'
+    });
+    google.charts.setOnLoadCallback(drawMarkersMap);
+    
+    function drawMarkersMap() {
+        var jsonData2 = $.ajax({
+            url: "/birdrlocations",
+            dataType: "json",
+            async: false
+        }).responseText;
+
+        var options2 = {
+            'region': 'US',
+            'width':'auto', 
+            'height':'auto',
+            'showTooltip': true,
+            'showInfoWindow': true,
+            'zoomLevel': 4
+        };
+        var data2 = google.visualization.arrayToDataTable(JSON.parse(jsonData2));
+        var chart2 = new google.visualization.Map(document.getElementById('overallMap'));
+        chart2.draw(data2, options2);
+    }
 </script>

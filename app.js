@@ -22,7 +22,8 @@ handlebars = extend(handlebars);
 require('dotenv').config();
 
 // ///api //////
-const api = require('./Api/api');
+const api = require('./Api/restApi');
+const chartApi = require('./Api/chartApi');
 
 // ///paths//////
 app.use(express.static(path.join(__dirname + '/Styles')));
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname + '/Images')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/', api);
+app.use('/', chartApi);
 app.set('port', port);
 
 // ///auth0 setup//////
@@ -82,13 +84,7 @@ app.get('/support', function(req, res, next) {
 });
 
 app.get('/reports', function(req, res, next) {
-  user = getUser(req);
-  if (user.email) {
-    axios.get(`${process.env.baseURL}/getlogged?email=${user.email}&userName=${getUser(req).userName}`)
-        .then(function(response) {
-          res.render('report', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Map', data: JSON.stringify(helpers.toGeoJson(response.data))});
-        });
-  }
+  res.render('report', {headerFooter: globals.globalVars['headerFooter'], userNav: getUser(req), active: 'Data Dashboard'});
 });
 
 app.get('/profile', requiresAuth(), function(req, res, next) {

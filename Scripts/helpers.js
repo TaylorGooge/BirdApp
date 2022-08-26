@@ -1,3 +1,18 @@
+/* eslint-disable max-len */
+const mysql = require('mysql');
+require('dotenv').config();
+
+
+// ///api//////
+const db = mysql.createPool({
+  user: process.env.user,
+  password: process.env.password,
+  host: process.env.host,
+  port: process.env.port,
+  database: process.env.database,
+});
+
+/* eslint-disable max-len */
 function toGeoJson(data) {
   const outGeoJson = {
     type: 'FeatureCollection',
@@ -15,5 +30,34 @@ function toGeoJson(data) {
   return outGeoJson;
 }
 
+function trimArray(array) {
+  array.forEach((element, index) => {
+    array[index] = element.trim();
+  });
+  return;
+}
 
-module.exports = {toGeoJson};
+function fallBackQuery(req, date, id) {
+  db.query('INSERT INTO birdSighting (userID, birdID, coordA, coordB, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [id, req.body.bird,
+    req.body.coordA, req.body.coordB, date], function(error, results) {
+    if (error) {
+      res.status(401).json({error: 'Couldn\'t complete request- issue with birdSighting'});
+      throw error;
+    }
+    return;
+  });
+}
+
+function reverseLocQuery(req, date, locationInfo, id) {
+  db.query('INSERT INTO birdSighting (userID, birdID, coordA, coordB, date, locality, country, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [id, req.body.bird,
+    req.body.coordA, req.body.coordB, date, `${locationInfo[0]}`, `${locationInfo[2]}`, `${locationInfo[1]}`], function(error, results) {
+    if (error) {
+      res.status(401).json({error: 'Couldn\'t complete request- issue with birdSighting'});
+      throw error;
+    }
+    return;
+  });
+}
+
+
+module.exports = {toGeoJson, trimArray, reverseLocQuery, fallBackQuery};
