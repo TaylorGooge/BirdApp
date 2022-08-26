@@ -4,7 +4,8 @@ const router = express.Router();
 const mysql = require('mysql');
 require('dotenv').config();
 const moment = require('moment');
-const toGeoJson = require('../Scripts/helpers');
+const helpers = require('../Scripts/helpers');
+const axios = require('axios');
 
 // ///api//////
 const db = mysql.createPool({
@@ -52,13 +53,25 @@ router.post('/postBird', function(req, res, next) {
         return res.status(401).json({error: 'Couldn\'t complete request- problem with user id'});
       }
       const id =results[0].id;
-      db.query('INSERT INTO birdSighting (userID, birdID, coordA, coordB, date) VALUES (?, ?, ?, ?, ?)', [id, req.body.bird,
-        req.body.coordA, req.body.coordB, date], function(error, results) {
-        if (error) {
-          res.status(401).json({error: 'Couldn\'t complete request- issue with birdSighting'});
-        }
-        res.send(JSON.stringify(results));
-      });
+      axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${req.body.coordB},${req.body.coordA}&result_type=locality&key=${process.env.reverseGeocoding}`)
+          .then(function(response) {
+            try {
+              const locationInfo = response.data['results'][0]['formatted_address'];
+              locationInfo = locationInfo.split(',');
+              helpers.trimArray(locationInfo);
+              helpers.reverseLocQuery(req, date, locationInfo, id);
+            } catch {
+              try {
+                let locationInfo = response.data['plus_code']['compound_code'];
+                locationInfo = locationInfo.slice(9);
+                locationInfo = locationInfo.split(',');
+                helpers.trimArray(locationInfo);
+                helpers.reverseLocQuery(req, date, locationInfo, id);
+              } catch {
+                helpers.fallBackQuery(req, date, id);
+              }
+            }
+          });
     }
   });
 });

@@ -4,6 +4,7 @@ const chartRouter = express.Router();
 const mysql = require('mysql');
 require('dotenv').config();
 const moment = require('moment');
+const axios = require('axios');
 
 // ///api//////
 const db = mysql.createPool({
@@ -56,7 +57,7 @@ chartRouter.get('/top10group', function(req, res, next) {
         `,
       function(error, results) {
         if (error) {
-          res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
+          res.status(401).json({error: 'Couldn\'t complete request'});
         } else {
           const obj = [['English Name', 'Count']];
           for (let i = 0; i < results.length; i++) {
@@ -66,6 +67,21 @@ chartRouter.get('/top10group', function(req, res, next) {
           res.send(obj);
         }
       });
+});
+
+chartRouter.get('/birdrlocations', function(req, res, next) {
+  db.query('SELECT DISTINCT coordA, coordB, locality, state from defaultdb.birdSighting', function(error, results ) {
+    if (error) {
+      res.status(401).json({error: 'Couldn\'t complete request'});
+    } else {
+      const obj = [['Lat', 'Lng', 'City']];
+      for (let i = 0; i < results.length; i++) {
+        const temp = [parseFloat(results[i].coordB), parseFloat(results[i].coordA), results[i].locality];
+        obj.push(temp);
+      }
+      res.send(obj);
+    }
+  });
 });
 
 module.exports = chartRouter;
