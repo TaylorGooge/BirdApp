@@ -167,10 +167,11 @@ router.get('/getlogged', function(req, res, next) {
 });
 
 router.get('/getloggedAll', function(req, res, next) {
-  db.query( `SELECT birdcodes.englishName, birdSighting.date, birdSighting.birdID, birdSighting.coordA,
+  db.query( `SELECT birdcodes.englishName, birdSighting.date, birdUsers.userName, birdSighting.birdID, birdSighting.coordA,
               birdSighting.coordB, birdSighting.id, birdSighting.userID FROM birdcodes
               INNER JOIN birdSighting on
               birdcodes.birdID = birdSighting.birdID
+              INNER JOIN birdUsers on birdUsers.id = birdSighting.userID
               ORDER BY  birdSighting.date desc `, function(error, results) {
     if (error) {
       throw (error);
