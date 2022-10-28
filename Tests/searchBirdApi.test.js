@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../testApp');
 
 describe('Get /searchBird', () => {
-  test('search bird empty request', async () => {
+  test('search bird empty request- should 401', async () => {
     const response = await request(app)
         .get('/searchBird');
     expect(response.statusCode).toBe(401);
@@ -33,7 +33,7 @@ describe('Get /searchBird', () => {
     expect(results.length).toBe(0);
   });
 
-  test('search bird by ID valid id with results', async () => {
+  test('search bird by valid group with results', async () => {
     const response = await request(app)
         .get('/searchBird?group=1');
     expect(response.statusCode).toBe(200);
@@ -50,7 +50,18 @@ describe('Get /searchBird', () => {
     }));
   });
 
-  test('search bird by ID valid id with no results', async () => {
+
+  test('search bird by valid group with results', async () => {
+    const response = await request(app)
+        .get('/searchBird?group=17');
+    expect(response.statusCode).toBe(200);
+    const results = JSON.parse(response.text);
+    expect(results.length > 0).toBeTruthy();
+  // expect(results.length).toBe(0);
+  });
+
+
+  test('search bird by invalid group- no results', async () => {
     const response = await request(app)
         .get('/searchBird?group=3');
     expect(response.statusCode).toBe(200);
