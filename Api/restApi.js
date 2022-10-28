@@ -47,7 +47,7 @@ router.post('/postBird', function(req, res, next) {
   const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
   db.query('SELECT id FROM birdUsers WHERE email= ?', [req.body.email], function(error, results) {
     if (error) {
-      return res.status(401).json({error: 'Couldn\'t complete request- problem with user id'});
+      res.status(401).json({error: 'Couldn\'t complete request- problem with user id'});
     } else {
       if (!results[0]) {
         return res.status(401).json({error: 'Couldn\'t complete request- problem with user id'});
@@ -58,23 +58,17 @@ router.post('/postBird', function(req, res, next) {
             try {
               const locationInfo = response.data['results'][0]['formatted_address'];
               locationInfo = locationInfo.split(',');
-              trimArray(locationInfo);
-              console.log('calling 1');
-              reverseLocQuery(req, date, locationInfo, id).then( (v) => res.send(JSON.stringify(v)));
-              return;
+              helpers.trimArray(locationInfo);
+              helpers.reverseLocQuery(req, date, locationInfo, id);
             } catch {
               try {
                 let locationInfo = response.data['plus_code']['compound_code'];
                 locationInfo = locationInfo.slice(9);
                 locationInfo = locationInfo.split(',');
-                trimArray(locationInfo);
-                console.log('calling 2');
-                reverseLocQuery(req, date, locationInfo, id).then( (v) => res.send(JSON.stringify(v)));
-                return;
+                helpers.trimArray(locationInfo);
+                helpers.reverseLocQuery(req, date, locationInfo, id);
               } catch {
-                console.log('calling 3');
-                fallBackQuery(req, date, id).then( (v) => res.send(JSON.stringify(v)));
-                return;
+                helpers.fallBackQuery(req, date, id);
               }
             }
           });
@@ -93,7 +87,8 @@ router.post('/deleteEntry', function(req, res, next) {
 
 router.get('/searchBird/:id?/:group?', function(req, res, next) {
   if (!(req.query.id || req.query.group)) {
-    return res.status(401).json({error: 'Couldn\'t complete request- request is empty'});
+    res.status(401).json({error: 'Couldn\'t complete request- request is empty'});
+    res.send(JSON.stringify(results));
   }
   if (req.query.id) {
     db.query( `SELECT birdcodes.englishName, birdSighting.date, birdUsers.userName, birdSighting.birdID, birdSighting.coordA, 
@@ -147,9 +142,9 @@ router.get('/getlogged', function(req, res, next) {
       } else {
         db.query('INSERT INTO birdUsers (email, userName) VALUES (?, ?)', [req.query.email, req.query.userName], function( err, results2) {
           if (err) {
-            return res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
+            res.status(401).json({error: 'Couldn\'t complete request- user information is invalid or empty'});
           } else {
-            return res.status(200).json();
+            res.status(200).json();
           }
         });
       }
@@ -187,35 +182,3 @@ router.get('/getloggedAll', function(req, res, next) {
 
 
 module.exports = router;
-
-
-
-//////
-function trimArray(array) {
-  array.forEach((element, index) => {
-    array[index] = element.trim();
-  });
-  return;
-}
-
-async function fallBackQuery(req, date, id) {
-  db.query('INSERT INTO birdSighting (userID, birdID, coordA, coordB, date) VALUES (?, ?, ?, ?, ?)', [id, req.body.bird,
-    req.body.coordA, req.body.coordB, date], function(error, results) {
-    if (error) {
-      return 401;
-    } else {
-      return JSON.stringify(results);
-    }
-  });
-}
-
-async function reverseLocQuery(req, date, locationInfo, id) {
-  db.query('INSERT INTO birdSighting (userID, birdID, coordA, coordB, date, locality, country, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [id, req.body.bird,
-    req.body.coordA, req.body.coordB, date, `${locationInfo[0]}`, `${locationInfo[2]}`, `${locationInfo[1]}`], function(error, results) {
-    if (error) {
-      return 401;
-    } else {
-      return JSON.stringify(results);
-    }
-  });
-}

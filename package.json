@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "test": "NODE_ENV=test jest --forceExit ./Test",
-    "test:watch": " NODE_ENV=test npm run clear_jest && npm run test ./Tests -- --watch",
+    "test:watch": " NODE_ENV=test npm run test ./Tests -- --watch",
     "start": "node app.js",
     "clear_jest": "jest --clearCache"
   },

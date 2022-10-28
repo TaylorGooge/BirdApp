@@ -3,7 +3,7 @@ const app = require('../testApp');
 const moment = require('moment');
 
 describe('POST /postBird', () => {
-  test('create bird sighting valid', async () => {
+  test('create bird sighting pass', async () => {
     const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const response = await request(app)
         .post('/postBird')
