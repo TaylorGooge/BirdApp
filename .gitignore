@@ -7,3 +7,5 @@ localhost-key.pem
 localhost.pem 
 
 migrations/.env
+
+.envtest
