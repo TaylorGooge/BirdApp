@@ -1,19 +1,24 @@
 /* eslint-disable max-len */
 let refinedResults = null;
+
+$('.sev_check').click(function() {
+  $('.sev_check').not(this).prop('checked', false);
+});
+
 function showVal(value) {
   if (value==='1') {
     return getDates(7);
   }
-  if (value==='2') {
+  if (value=== '2') {
     return getDates(30);
   }
-  if (value==='3') {
+  if (value=== '3') {
     return getSeason(new Date());
   }
-  if (value==='4') {
+  if (value=== '4') {
     return getDates(365);
   }
-  if (value==='5') {
+  if (value=== '5' ) {
     // return to onload state
     map.data.addGeoJson(geoData);
   }
@@ -124,12 +129,3 @@ function getDates(int) {
   return filter(week, now);
 }
 
-function resetSliderVal() {
-  $('#refineResults').slider('refresh');
-}
-
-window.addEventListener('load', () => {
-  document.querySelectorAll('.slider-tick-label, .label-in-selection').forEach((el) => {
-    el.style.removeProperty('width');
-  });
-});
