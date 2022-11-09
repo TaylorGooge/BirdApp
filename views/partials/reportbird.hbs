@@ -3,20 +3,32 @@
 {{/extend}}
 {{>modal}}
 <div id = 'reportbird' class= 'container-fluid' >
-    <h2>Report bird sighting <button class= 'btn btn-secondary' data-bs-toggle="modal" data-bs-target="#explainModal">?</button></h2> 
-    <form>
-        <div class = 'form-group'>
-             <label for="birdName"> Bird
-                <select class="form-control bird-select-basic-single" type= 'select' id= "birdName" autocomplete= "on">
-                    <option value = '0'> Select</option>
-                </select>
-            </label>
+    <div class="justify-content-center align-items-center">
+        <div class= "row gy-5">
+            <button class= 'btn btn-secondary' data-bs-toggle="modal" data-bs-target="#explainModal">What does reporting a bird do?</button>
         </div>
-    </form>
-    <button class="btn btn-secondary sub-Button" id = "submitBird" type="submit" data-bs-toggle="modal" data-bs-target="#successModal">Submit</button>
-    <p>Is the bird you saw not listed? 
-        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reportBirdModal">Click here</button>
-    </p>
+        <div class= "row">
+            <form>
+                <div class = 'form-group'>
+                    <div class="row">
+                        <label for="birdName"> Bird
+                            <select class="form-control bird-select-basic-single" type= 'select' id= "birdName" autocomplete= "on" style="width:100%">
+                                <option value = '0'> Select</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class = 'form-group'>
+                    <button class="btn btn-secondary sub-Button" id = "submitBird" type="submit" data-bs-toggle="modal" data-bs-target="#successModal">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class= "row">
+            <p>Is the bird you saw not listed? 
+                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#reportBirdModal">Click here</button>
+            </p>
+        </div>
+    </div>
 </div>
 {{#extend "scripts"}}
     <script src = "reportbird.js" > </script>
