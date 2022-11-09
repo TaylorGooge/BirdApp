@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <ul class="nav nav-tabs">
+    <li class="nav-item"><a data-bs-toggle="tab" class = "nav-link link-secondary" href="#reportbird">Report A Sighting</a></li>
+    <li class="nav-item"><a data-bs-toggle="tab" class = "nav-link link-secondary" href="#search">Search</a></li>
+    <li class="nav-item"><a data-bs-toggle="tab" class = "nav-link link-secondary" href="#refine">Refine Results </a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="reportbird" class="tab-pane fade in active">
+      {{>reportbird}}
+    </div>
+    <div id="search" class="tab-pane fade">
+        {{>filterSearch}}
+    </div>
+    <div id="refine" class="tab-pane fade">
+        {{>slider}}
+    </div>
+  </div>
+</div>
+
+

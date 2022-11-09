@@ -128,4 +128,8 @@ function resetSliderVal() {
   $('#refineResults').slider('refresh');
 }
 
-
+window.addEventListener('load', () => {
+  document.querySelectorAll('.slider-tick-label, .label-in-selection').forEach((el) => {
+    el.style.removeProperty('width');
+  });
+});
